@@ -4,10 +4,10 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
-        <!--Scene-->
+        <!--Story-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController title="Scene" id="BYZ-38-t0r" customClass="SceneViewController" sceneMemberID="viewController">
+                <viewController title="Story" id="BYZ-38-t0r" customClass="StoryViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -15,20 +15,90 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="mT4-ny-R7r">
                                 <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="Tb4-eQ-nmU" appends="YES" id="kSG-EO-vfG"/>
+                                </connections>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
-                        <outlet property="scene_pic" destination="mT4-ny-R7r" id="YuH-CX-fw8"/>
-                        <segue destination="Cf4-Uk-Uv9" kind="custom" id="A5h-wC-pAh"/>
-                        <segue destination="hVX-5E-ag9" kind="custom" id="0Ae-Qx-KUi"/>
+                        <outlet property="story_animate" destination="mT4-ny-R7r" id="363-cL-mfX"/>
+                        <segue destination="Cf4-Uk-Uv9" kind="modal" identifier="toStage" id="UGB-sa-P65"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="Tb4-eQ-nmU"/>
             </objects>
-            <point key="canvasLocation" x="362" y="554"/>
+            <point key="canvasLocation" x="386" y="554"/>
+        </scene>
+        <!--Dict Collection View Controller-->
+        <scene sceneID="0NT-dl-v2q">
+            <objects>
+                <collectionViewController id="u6y-fh-AlV" customClass="DictCollectionViewController" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="Slj-8t-CKr">
+                        <rect key="frame" x="0.0" y="0.0" width="489" height="616"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="unh-ZN-OOt">
+                            <size key="itemSize" width="50" height="50"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="JuD-jy-90P">
+                                <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="u6y-fh-AlV" id="IcJ-rO-o9e"/>
+                            <outlet property="delegate" destination="u6y-fh-AlV" id="UT6-WI-R8d"/>
+                        </connections>
+                    </collectionView>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="489" height="616"/>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="BLO-zM-CuK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2769.5" y="306"/>
+        </scene>
+        <!--I Pad Table View Controller-->
+        <scene sceneID="wNe-L6-kDr">
+            <objects>
+                <tableViewController id="wZ3-OZ-Sjh" customClass="iPadTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="LFp-MD-wbw">
+                        <rect key="frame" x="0.0" y="0.0" width="489" height="615"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="qeA-V6-IIA">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qeA-V6-IIA" id="6cG-ns-3k0">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="wZ3-OZ-Sjh" id="slA-ru-qM1"/>
+                            <outlet property="delegate" destination="wZ3-OZ-Sjh" id="r9y-XG-eAG"/>
+                        </connections>
+                    </tableView>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="489" height="615"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="C1G-v1-o4R" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2769.5" y="1106.5"/>
         </scene>
         <!--Stage-->
         <scene sceneID="lfx-7l-VRf">
@@ -37,16 +107,46 @@
                     <view key="view" contentMode="scaleToFill" id="kIx-FA-lUk">
                         <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="stage1.png" id="1OG-nT-oYN">
+                                <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="lm1-Jc-toc">
+                                <rect key="frame" x="69" y="63" width="75" height="97"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="dic.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="u6y-fh-AlV" kind="popover" popoverAnchorView="lm1-Jc-toc" id="jVj-6L-LjL">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="8cl-YB-MoX">
+                                <rect key="frame" x="160" y="63" width="75" height="97"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" image="ipad.png">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="wZ3-OZ-Sjh" kind="popover" popoverAnchorView="8cl-YB-MoX" id="hoj-TD-5YN">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="custom" id="o3a-ry-KHx"/>
+                        <outlet property="stage_bg" destination="1OG-nT-oYN" id="z3G-yK-QQO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Z6T-U6-5z2" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1714" y="548"/>
+            <point key="canvasLocation" x="1682" y="554"/>
         </scene>
         <!--Game-->
         <scene sceneID="oPI-Ym-720">
@@ -58,9 +158,6 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                    <connections>
-                        <segue destination="BYZ-38-t0r" kind="custom" id="meb-Bw-adt"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MnH-ed-ja9" sceneMemberID="firstResponder"/>
             </objects>
@@ -81,7 +178,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="BYZ-38-t0r" kind="custom" id="9O0-gv-WTM"/>
+                                    <segue destination="BYZ-38-t0r" kind="modal" id="TeL-CQ-Ew2"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="bwh-J8-Nf9">
@@ -101,12 +198,14 @@
             <point key="canvasLocation" x="-810" y="554"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="dic.png" width="151" height="194"/>
+        <image name="ipad.png" width="151" height="194"/>
+        <image name="stage1.png" width="2048" height="1536"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="meb-Bw-adt"/>
-    </inferredMetricsTieBreakers>
 </document>

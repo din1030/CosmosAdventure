@@ -7,6 +7,8 @@
 //
 
 #import "GameViewController.h"
+#import "FMDatabase.h"
+#import "DatabaseManager.h"
 
 @interface GameViewController ()
 
