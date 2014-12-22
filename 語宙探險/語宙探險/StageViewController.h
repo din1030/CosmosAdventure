@@ -7,11 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ApadViewController.h"
+#import "BookViewController.h"
 
-@interface StageViewController : UIViewController
+@protocol StageViewControllerDelegate;
+
+@interface StageViewController : UIViewController<UIPopoverControllerDelegate, ApadViewControllerDelegate, BookViewControllerDelegate>
+
+@property (nonatomic, assign) id<StageViewControllerDelegate> delegate;
+
+@property (weak, nonatomic) IBOutlet UIView *curtain;
 @property (strong, nonatomic) IBOutlet UIImageView *stage_bg;
-@property (retain, nonatomic) NSString *r_id;
-@property (retain, nonatomic) NSString *r_img_name;
-@property (nonatomic) int r_img_count;
-@property (retain, nonatomic) NSString *bg_pic;
+@property (weak, nonatomic) IBOutlet UIButton *btnDictionary;
+@property (weak, nonatomic) IBOutlet UIButton *btnApad;
+
+@end
+
+@protocol StageViewControllerDelegate <NSObject>
+
+- (void)changeViewController:(NSString*)toView;
+
 @end

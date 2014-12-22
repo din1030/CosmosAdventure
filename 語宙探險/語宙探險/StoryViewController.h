@@ -8,11 +8,24 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol StoryViewControllerDelegate;
+
 @interface StoryViewController : UIViewController
+
+@property (nonatomic, assign) id<StoryViewControllerDelegate> delegate;
+
+@property (weak, nonatomic) IBOutlet UIView *curtain;
 @property (strong, nonatomic) IBOutlet UIImageView *story_animate;
-@property (retain, nonatomic) NSString *r_id;
-@property (retain, nonatomic) NSString *r_img_name;
+@property (weak, nonatomic) IBOutlet UIImageView *story_dialog;
+@property (weak, nonatomic) IBOutlet UIImageView *story_character;
+@property (weak, nonatomic) IBOutlet UILabel *story_lines;
 @property (nonatomic) int r_img_count;
 @property (nonatomic) int current_count;
-@property (retain, nonatomic) NSString *animation_pic;
+
+@end
+
+@protocol StoryViewControllerDelegate <NSObject>
+
+- (void)changeViewController:(NSString*)toView;
+
 @end

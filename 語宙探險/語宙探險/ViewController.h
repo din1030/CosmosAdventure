@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <sqlite3.h>
+#import "StoryViewController.h"
+#import "StageViewController.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<StoryViewControllerDelegate>
 
+@property (weak, nonatomic) IBOutlet UIView *curtain;
+@property (retain, nonatomic) NSString *r_id;
 
 @end
 

@@ -7,18 +7,30 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A60EDAF41A38A28000BAEBA9 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = A60EDAEA1A38A28000BAEBA9 /* FMDatabase.m */; };
-		A60EDAF51A38A28000BAEBA9 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A60EDAEC1A38A28000BAEBA9 /* FMDatabaseAdditions.m */; };
-		A60EDAF61A38A28000BAEBA9 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = A60EDAEE1A38A28000BAEBA9 /* FMDatabasePool.m */; };
-		A60EDAF71A38A28000BAEBA9 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A60EDAF01A38A28000BAEBA9 /* FMDatabaseQueue.m */; };
-		A60EDAF81A38A28000BAEBA9 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = A60EDAF31A38A28000BAEBA9 /* FMResultSet.m */; };
+		2D50AB101A43567E000729A2 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D50AB0B1A43567E000729A2 /* FMDatabase.m */; };
+		2D50AB111A43567E000729A2 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D50AB0D1A43567E000729A2 /* FMDatabaseAdditions.m */; };
+		2D50AB121A43567E000729A2 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D50AB0F1A43567E000729A2 /* FMResultSet.m */; };
+		2D92CE271A46E50100EB340A /* libstdc++.6.0.9.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D92CE261A46E50100EB340A /* libstdc++.6.0.9.dylib */; };
+		2D92CE291A46E52400EB340A /* CoreImage.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D92CE281A46E52400EB340A /* CoreImage.framework */; };
+		2D92CE2D1A46E67100EB340A /* TesseractOCR.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D92CE2B1A46E55F00EB340A /* TesseractOCR.framework */; };
+		2D92CE751A46EB7F00EB340A /* tessdata in Resources */ = {isa = PBXBuildFile; fileRef = 2D92CE741A46EB7F00EB340A /* tessdata */; };
+		2D92CE791A46F07000EB340A /* RundownObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D92CE781A46F07000EB340A /* RundownObject.m */; };
+		2D92CE7C1A47370100EB340A /* PagesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D92CE7B1A47370100EB340A /* PagesViewController.m */; };
+		2D92CE7F1A47374400EB340A /* ApadViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D92CE7E1A47374400EB340A /* ApadViewController.m */; };
+		2D92CE821A4756E300EB340A /* DictionaryObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D92CE811A4756E300EB340A /* DictionaryObject.m */; };
+		2D92CF1A1A4765B000EB340A /* BookViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D92CF191A4765B000EB340A /* BookViewController.m */; };
+		2DA755E41A480D7E009A1ADD /* OCRViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA755E31A480D7E009A1ADD /* OCRViewController.m */; };
+		2DA755E71A482718009A1ADD /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2DA755E51A482702009A1ADD /* AVFoundation.framework */; };
+		2DA755EA1A487C82009A1ADD /* MissionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA755E91A487C82009A1ADD /* MissionTableViewCell.m */; };
+		2DA755EF1A48848F009A1ADD /* MatchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA755EE1A48848F009A1ADD /* MatchViewController.m */; };
+		2DA755F21A4884AA009A1ADD /* AimViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA755F11A4884AA009A1ADD /* AimViewController.m */; };
+		2DA755F51A4884D7009A1ADD /* OKbonViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2DA755F41A4884D7009A1ADD /* OKbonViewController.m */; };
 		A60EDAFB1A38A3EB00BAEBA9 /* DatabaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A60EDAFA1A38A3EB00BAEBA9 /* DatabaseManager.m */; };
 		A61025DF1A3855A700F459A8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A61025DE1A3855A700F459A8 /* main.m */; };
 		A61025E21A3855A700F459A8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A61025E11A3855A700F459A8 /* AppDelegate.m */; };
 		A61025E51A3855A700F459A8 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A61025E41A3855A700F459A8 /* ViewController.m */; };
 		A61025EA1A3855A700F459A8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A61025E91A3855A700F459A8 /* Images.xcassets */; };
 		A61025F91A3855A700F459A8 /* ____Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = A61025F81A3855A700F459A8 /* ____Tests.m */; };
-		A610260A1A38748900F459A8 /* GameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A61026091A38748900F459A8 /* GameViewController.m */; };
 		A610260D1A38763300F459A8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A610260B1A38762100F459A8 /* libsqlite3.dylib */; };
 		A61075FE1A3CD85400D3CDD8 /* dump.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A61075FD1A3CD84F00D3CDD8 /* dump.sqlite */; };
 		A61076141A3E1B1900D3CDD8 /* back.png in Resources */ = {isa = PBXBuildFile; fileRef = A61076001A3E1B1900D3CDD8 /* back.png */; };
@@ -41,10 +53,8 @@
 		A61076251A3E1B1900D3CDD8 /* next.png in Resources */ = {isa = PBXBuildFile; fileRef = A61076111A3E1B1900D3CDD8 /* next.png */; };
 		A61076261A3E1B1900D3CDD8 /* okbon.png in Resources */ = {isa = PBXBuildFile; fileRef = A61076121A3E1B1900D3CDD8 /* okbon.png */; };
 		A61076271A3E1B1900D3CDD8 /* x.png in Resources */ = {isa = PBXBuildFile; fileRef = A61076131A3E1B1900D3CDD8 /* x.png */; };
-		A610762A1A3E1FD100D3CDD8 /* iPadTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A61076291A3E1FD100D3CDD8 /* iPadTableViewController.m */; };
-		A610762D1A3E213700D3CDD8 /* DictCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A610762C1A3E213700D3CDD8 /* DictCollectionViewController.m */; };
 		A676EBA61A3CCEBD0046C1F0 /* launch.png in Resources */ = {isa = PBXBuildFile; fileRef = A676EB9B1A3CCEBD0046C1F0 /* launch.png */; };
-		A676EBA71A3CCEBD0046C1F0 /* stage1.png in Resources */ = {isa = PBXBuildFile; fileRef = A676EB9C1A3CCEBD0046C1F0 /* stage1.png */; };
+		A676EBA71A3CCEBD0046C1F0 /* stage11.png in Resources */ = {isa = PBXBuildFile; fileRef = A676EB9C1A3CCEBD0046C1F0 /* stage11.png */; };
 		A676EBA81A3CCEBD0046C1F0 /* story1_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A676EB9E1A3CCEBD0046C1F0 /* story1_1.png */; };
 		A676EBA91A3CCEBD0046C1F0 /* story1_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A676EB9F1A3CCEBD0046C1F0 /* story1_2.png */; };
 		A676EBAA1A3CCEBD0046C1F0 /* story1_3.png in Resources */ = {isa = PBXBuildFile; fileRef = A676EBA01A3CCEBD0046C1F0 /* story1_3.png */; };
@@ -69,17 +79,37 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		A60EDAE91A38A28000BAEBA9 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
-		A60EDAEA1A38A28000BAEBA9 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
-		A60EDAEB1A38A28000BAEBA9 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
-		A60EDAEC1A38A28000BAEBA9 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
-		A60EDAED1A38A28000BAEBA9 /* FMDatabasePool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabasePool.h; sourceTree = "<group>"; };
-		A60EDAEE1A38A28000BAEBA9 /* FMDatabasePool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabasePool.m; sourceTree = "<group>"; };
-		A60EDAEF1A38A28000BAEBA9 /* FMDatabaseQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseQueue.h; sourceTree = "<group>"; };
-		A60EDAF01A38A28000BAEBA9 /* FMDatabaseQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseQueue.m; sourceTree = "<group>"; };
-		A60EDAF11A38A28000BAEBA9 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDB.h; sourceTree = "<group>"; };
-		A60EDAF21A38A28000BAEBA9 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
-		A60EDAF31A38A28000BAEBA9 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		2D50AB0A1A43567E000729A2 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabase.h; sourceTree = "<group>"; };
+		2D50AB0B1A43567E000729A2 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabase.m; sourceTree = "<group>"; };
+		2D50AB0C1A43567E000729A2 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMDatabaseAdditions.h; sourceTree = "<group>"; };
+		2D50AB0D1A43567E000729A2 /* FMDatabaseAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMDatabaseAdditions.m; sourceTree = "<group>"; };
+		2D50AB0E1A43567E000729A2 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FMResultSet.h; sourceTree = "<group>"; };
+		2D50AB0F1A43567E000729A2 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FMResultSet.m; sourceTree = "<group>"; };
+		2D92CE261A46E50100EB340A /* libstdc++.6.0.9.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.0.9.dylib"; path = "usr/lib/libstdc++.6.0.9.dylib"; sourceTree = SDKROOT; };
+		2D92CE281A46E52400EB340A /* CoreImage.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreImage.framework; path = System/Library/Frameworks/CoreImage.framework; sourceTree = SDKROOT; };
+		2D92CE2B1A46E55F00EB340A /* TesseractOCR.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TesseractOCR.framework; path = "語宙探險/ThirdParty/TesseractOCR/TesseractOCR.framework"; sourceTree = "<group>"; };
+		2D92CE741A46EB7F00EB340A /* tessdata */ = {isa = PBXFileReference; lastKnownFileType = folder; name = tessdata; path = TesseractOCR/tessdata; sourceTree = "<group>"; };
+		2D92CE771A46F07000EB340A /* RundownObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RundownObject.h; sourceTree = "<group>"; };
+		2D92CE781A46F07000EB340A /* RundownObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RundownObject.m; sourceTree = "<group>"; };
+		2D92CE7A1A47370100EB340A /* PagesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PagesViewController.h; sourceTree = "<group>"; };
+		2D92CE7B1A47370100EB340A /* PagesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PagesViewController.m; sourceTree = "<group>"; };
+		2D92CE7D1A47374400EB340A /* ApadViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApadViewController.h; sourceTree = "<group>"; };
+		2D92CE7E1A47374400EB340A /* ApadViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApadViewController.m; sourceTree = "<group>"; };
+		2D92CE801A4756E300EB340A /* DictionaryObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictionaryObject.h; sourceTree = "<group>"; };
+		2D92CE811A4756E300EB340A /* DictionaryObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DictionaryObject.m; sourceTree = "<group>"; };
+		2D92CF181A4765B000EB340A /* BookViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BookViewController.h; sourceTree = "<group>"; };
+		2D92CF191A4765B000EB340A /* BookViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BookViewController.m; sourceTree = "<group>"; };
+		2DA755E21A480D7E009A1ADD /* OCRViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OCRViewController.h; sourceTree = "<group>"; };
+		2DA755E31A480D7E009A1ADD /* OCRViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OCRViewController.m; sourceTree = "<group>"; };
+		2DA755E51A482702009A1ADD /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		2DA755E81A487C82009A1ADD /* MissionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MissionTableViewCell.h; sourceTree = "<group>"; };
+		2DA755E91A487C82009A1ADD /* MissionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MissionTableViewCell.m; sourceTree = "<group>"; };
+		2DA755ED1A48848F009A1ADD /* MatchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MatchViewController.h; sourceTree = "<group>"; };
+		2DA755EE1A48848F009A1ADD /* MatchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MatchViewController.m; sourceTree = "<group>"; };
+		2DA755F01A4884AA009A1ADD /* AimViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AimViewController.h; sourceTree = "<group>"; };
+		2DA755F11A4884AA009A1ADD /* AimViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AimViewController.m; sourceTree = "<group>"; };
+		2DA755F31A4884D7009A1ADD /* OKbonViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OKbonViewController.h; sourceTree = "<group>"; };
+		2DA755F41A4884D7009A1ADD /* OKbonViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OKbonViewController.m; sourceTree = "<group>"; };
 		A60EDAF91A38A3EB00BAEBA9 /* DatabaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatabaseManager.h; sourceTree = "<group>"; };
 		A60EDAFA1A38A3EB00BAEBA9 /* DatabaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatabaseManager.m; sourceTree = "<group>"; };
 		A61025D91A3855A700F459A8 /* 語宙探險.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "語宙探險.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,8 +125,6 @@
 		A61025F21A3855A700F459A8 /* 語宙探險Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "語宙探險Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A61025F71A3855A700F459A8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A61025F81A3855A700F459A8 /* ____Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "____Tests.m"; sourceTree = "<group>"; };
-		A61026081A38748900F459A8 /* GameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameViewController.h; sourceTree = "<group>"; };
-		A61026091A38748900F459A8 /* GameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameViewController.m; sourceTree = "<group>"; };
 		A610260B1A38762100F459A8 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A61075FD1A3CD84F00D3CDD8 /* dump.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = dump.sqlite; sourceTree = "<group>"; };
 		A61076001A3E1B1900D3CDD8 /* back.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = back.png; sourceTree = "<group>"; };
@@ -119,12 +147,8 @@
 		A61076111A3E1B1900D3CDD8 /* next.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = next.png; sourceTree = "<group>"; };
 		A61076121A3E1B1900D3CDD8 /* okbon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = okbon.png; sourceTree = "<group>"; };
 		A61076131A3E1B1900D3CDD8 /* x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = x.png; sourceTree = "<group>"; };
-		A61076281A3E1FD100D3CDD8 /* iPadTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iPadTableViewController.h; sourceTree = "<group>"; };
-		A61076291A3E1FD100D3CDD8 /* iPadTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iPadTableViewController.m; sourceTree = "<group>"; };
-		A610762B1A3E213700D3CDD8 /* DictCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DictCollectionViewController.h; sourceTree = "<group>"; };
-		A610762C1A3E213700D3CDD8 /* DictCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DictCollectionViewController.m; sourceTree = "<group>"; };
 		A676EB9B1A3CCEBD0046C1F0 /* launch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch.png; sourceTree = "<group>"; };
-		A676EB9C1A3CCEBD0046C1F0 /* stage1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stage1.png; sourceTree = "<group>"; };
+		A676EB9C1A3CCEBD0046C1F0 /* stage11.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stage11.png; sourceTree = "<group>"; };
 		A676EB9E1A3CCEBD0046C1F0 /* story1_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = story1_1.png; sourceTree = "<group>"; };
 		A676EB9F1A3CCEBD0046C1F0 /* story1_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = story1_2.png; sourceTree = "<group>"; };
 		A676EBA01A3CCEBD0046C1F0 /* story1_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = story1_3.png; sourceTree = "<group>"; };
@@ -144,6 +168,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DA755E71A482718009A1ADD /* AVFoundation.framework in Frameworks */,
+				2D92CE2D1A46E67100EB340A /* TesseractOCR.framework in Frameworks */,
+				2D92CE291A46E52400EB340A /* CoreImage.framework in Frameworks */,
+				2D92CE271A46E50100EB340A /* libstdc++.6.0.9.dylib in Frameworks */,
 				A610260D1A38763300F459A8 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -158,22 +186,71 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		A60EDAE81A38A28000BAEBA9 /* fmdb */ = {
+		2D50AB081A43567E000729A2 /* ThirdParty */ = {
 			isa = PBXGroup;
 			children = (
-				A60EDAE91A38A28000BAEBA9 /* FMDatabase.h */,
-				A60EDAEA1A38A28000BAEBA9 /* FMDatabase.m */,
-				A60EDAEB1A38A28000BAEBA9 /* FMDatabaseAdditions.h */,
-				A60EDAEC1A38A28000BAEBA9 /* FMDatabaseAdditions.m */,
-				A60EDAED1A38A28000BAEBA9 /* FMDatabasePool.h */,
-				A60EDAEE1A38A28000BAEBA9 /* FMDatabasePool.m */,
-				A60EDAEF1A38A28000BAEBA9 /* FMDatabaseQueue.h */,
-				A60EDAF01A38A28000BAEBA9 /* FMDatabaseQueue.m */,
-				A60EDAF11A38A28000BAEBA9 /* FMDB.h */,
-				A60EDAF21A38A28000BAEBA9 /* FMResultSet.h */,
-				A60EDAF31A38A28000BAEBA9 /* FMResultSet.m */,
+				2D92CE2E1A46EAAC00EB340A /* TesseractOCR */,
+				2D50AB091A43567E000729A2 /* FMDB */,
 			);
-			path = fmdb;
+			path = ThirdParty;
+			sourceTree = "<group>";
+		};
+		2D50AB091A43567E000729A2 /* FMDB */ = {
+			isa = PBXGroup;
+			children = (
+				2D50AB0A1A43567E000729A2 /* FMDatabase.h */,
+				2D50AB0B1A43567E000729A2 /* FMDatabase.m */,
+				2D50AB0C1A43567E000729A2 /* FMDatabaseAdditions.h */,
+				2D50AB0D1A43567E000729A2 /* FMDatabaseAdditions.m */,
+				2D50AB0E1A43567E000729A2 /* FMResultSet.h */,
+				2D50AB0F1A43567E000729A2 /* FMResultSet.m */,
+			);
+			path = FMDB;
+			sourceTree = "<group>";
+		};
+		2D92CE2A1A46E52D00EB340A /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				A610260B1A38762100F459A8 /* libsqlite3.dylib */,
+				2D92CE261A46E50100EB340A /* libstdc++.6.0.9.dylib */,
+				2D92CE2B1A46E55F00EB340A /* TesseractOCR.framework */,
+				2DA755E51A482702009A1ADD /* AVFoundation.framework */,
+				2D92CE281A46E52400EB340A /* CoreImage.framework */,
+			);
+			name = Framework;
+			path = ..;
+			sourceTree = "<group>";
+		};
+		2D92CE2E1A46EAAC00EB340A /* TesseractOCR */ = {
+			isa = PBXGroup;
+			children = (
+				2D92CE741A46EB7F00EB340A /* tessdata */,
+			);
+			name = TesseractOCR;
+			sourceTree = "<group>";
+		};
+		2D92CE761A46F04D00EB340A /* DataObject */ = {
+			isa = PBXGroup;
+			children = (
+				2D92CE771A46F07000EB340A /* RundownObject.h */,
+				2D92CE781A46F07000EB340A /* RundownObject.m */,
+				2D92CE801A4756E300EB340A /* DictionaryObject.h */,
+				2D92CE811A4756E300EB340A /* DictionaryObject.m */,
+			);
+			path = DataObject;
+			sourceTree = "<group>";
+		};
+		2DA755EC1A488467009A1ADD /* GameSet */ = {
+			isa = PBXGroup;
+			children = (
+				2DA755ED1A48848F009A1ADD /* MatchViewController.h */,
+				2DA755EE1A48848F009A1ADD /* MatchViewController.m */,
+				2DA755F01A4884AA009A1ADD /* AimViewController.h */,
+				2DA755F11A4884AA009A1ADD /* AimViewController.m */,
+				2DA755F31A4884D7009A1ADD /* OKbonViewController.h */,
+				2DA755F41A4884D7009A1ADD /* OKbonViewController.m */,
+			);
+			path = GameSet;
 			sourceTree = "<group>";
 		};
 		A61025D01A3855A700F459A8 = {
@@ -197,11 +274,10 @@
 		A61025DB1A3855A700F459A8 /* 語宙探險 */ = {
 			isa = PBXGroup;
 			children = (
+				2DA755EC1A488467009A1ADD /* GameSet */,
+				2D92CE761A46F04D00EB340A /* DataObject */,
+				2D50AB081A43567E000729A2 /* ThirdParty */,
 				A61025E61A3855A700F459A8 /* Main.storyboard */,
-				A610762B1A3E213700D3CDD8 /* DictCollectionViewController.h */,
-				A610762C1A3E213700D3CDD8 /* DictCollectionViewController.m */,
-				A61076281A3E1FD100D3CDD8 /* iPadTableViewController.h */,
-				A61076291A3E1FD100D3CDD8 /* iPadTableViewController.m */,
 				A61025E01A3855A700F459A8 /* AppDelegate.h */,
 				A61025E11A3855A700F459A8 /* AppDelegate.m */,
 				A61025E31A3855A700F459A8 /* ViewController.h */,
@@ -210,16 +286,24 @@
 				A6877EAF1A3CC97A00EEECCA /* StoryViewController.m */,
 				A6877EB11A3CC9C800EEECCA /* StageViewController.h */,
 				A6877EB21A3CC9C800EEECCA /* StageViewController.m */,
-				A61026081A38748900F459A8 /* GameViewController.h */,
-				A61026091A38748900F459A8 /* GameViewController.m */,
 				A60EDAF91A38A3EB00BAEBA9 /* DatabaseManager.h */,
 				A60EDAFA1A38A3EB00BAEBA9 /* DatabaseManager.m */,
+				2D92CF181A4765B000EB340A /* BookViewController.h */,
+				2D92CF191A4765B000EB340A /* BookViewController.m */,
+				2D92CE7A1A47370100EB340A /* PagesViewController.h */,
+				2D92CE7B1A47370100EB340A /* PagesViewController.m */,
+				2D92CE7D1A47374400EB340A /* ApadViewController.h */,
+				2D92CE7E1A47374400EB340A /* ApadViewController.m */,
+				2DA755E81A487C82009A1ADD /* MissionTableViewCell.h */,
+				2DA755E91A487C82009A1ADD /* MissionTableViewCell.m */,
+				2DA755E21A480D7E009A1ADD /* OCRViewController.h */,
+				2DA755E31A480D7E009A1ADD /* OCRViewController.m */,
 				A61025E91A3855A700F459A8 /* Images.xcassets */,
 				A61025EB1A3855A700F459A8 /* LaunchScreen.xib */,
 				A61075FD1A3CD84F00D3CDD8 /* dump.sqlite */,
 				A676EB9A1A3CCEBD0046C1F0 /* img */,
-				A60EDAE81A38A28000BAEBA9 /* fmdb */,
 				A61025DC1A3855A700F459A8 /* Supporting Files */,
+				2D92CE2A1A46E52D00EB340A /* Framework */,
 			);
 			path = "語宙探險";
 			sourceTree = "<group>";
@@ -227,7 +311,6 @@
 		A61025DC1A3855A700F459A8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				A610260B1A38762100F459A8 /* libsqlite3.dylib */,
 				A61025DD1A3855A700F459A8 /* Info.plist */,
 				A61025DE1A3855A700F459A8 /* main.m */,
 			);
@@ -283,7 +366,7 @@
 			children = (
 				A61075FF1A3E1B1900D3CDD8 /* item */,
 				A676EB9B1A3CCEBD0046C1F0 /* launch.png */,
-				A676EB9C1A3CCEBD0046C1F0 /* stage1.png */,
+				A676EB9C1A3CCEBD0046C1F0 /* stage11.png */,
 				A676EB9D1A3CCEBD0046C1F0 /* story */,
 			);
 			path = img;
@@ -393,6 +476,7 @@
 				A676EBAD1A3CCEBD0046C1F0 /* story1_6.png in Resources */,
 				A676EBA61A3CCEBD0046C1F0 /* launch.png in Resources */,
 				A610761E1A3E1B1900D3CDD8 /* cj.png in Resources */,
+				2D92CE751A46EB7F00EB340A /* tessdata in Resources */,
 				A610761A1A3E1B1900D3CDD8 /* c_laugh.png in Resources */,
 				A676EBAF1A3CCEBD0046C1F0 /* story1_8.png in Resources */,
 				A610761C1A3E1B1900D3CDD8 /* c_shock.png in Resources */,
@@ -412,7 +496,7 @@
 				A676EBAC1A3CCEBD0046C1F0 /* story1_5.png in Resources */,
 				A61025EA1A3855A700F459A8 /* Images.xcassets in Resources */,
 				A61076191A3E1B1900D3CDD8 /* boy.png in Resources */,
-				A676EBA71A3CCEBD0046C1F0 /* stage1.png in Resources */,
+				A676EBA71A3CCEBD0046C1F0 /* stage11.png in Resources */,
 				A676EBA91A3CCEBD0046C1F0 /* story1_2.png in Resources */,
 				A610761D1A3E1B1900D3CDD8 /* c_smile.png in Resources */,
 				A676EBA81A3CCEBD0046C1F0 /* story1_1.png in Resources */,
@@ -434,20 +518,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2DA755F21A4884AA009A1ADD /* AimViewController.m in Sources */,
+				2DA755F51A4884D7009A1ADD /* OKbonViewController.m in Sources */,
+				2D92CF1A1A4765B000EB340A /* BookViewController.m in Sources */,
+				2DA755E41A480D7E009A1ADD /* OCRViewController.m in Sources */,
+				2D92CE7F1A47374400EB340A /* ApadViewController.m in Sources */,
 				A61025E51A3855A700F459A8 /* ViewController.m in Sources */,
+				2DA755EA1A487C82009A1ADD /* MissionTableViewCell.m in Sources */,
+				2DA755EF1A48848F009A1ADD /* MatchViewController.m in Sources */,
+				2D92CE821A4756E300EB340A /* DictionaryObject.m in Sources */,
 				A6877EB01A3CC97A00EEECCA /* StoryViewController.m in Sources */,
+				2D92CE791A46F07000EB340A /* RundownObject.m in Sources */,
 				A60EDAFB1A38A3EB00BAEBA9 /* DatabaseManager.m in Sources */,
+				2D50AB101A43567E000729A2 /* FMDatabase.m in Sources */,
+				2D92CE7C1A47370100EB340A /* PagesViewController.m in Sources */,
 				A61025E21A3855A700F459A8 /* AppDelegate.m in Sources */,
-				A60EDAF41A38A28000BAEBA9 /* FMDatabase.m in Sources */,
-				A610762A1A3E1FD100D3CDD8 /* iPadTableViewController.m in Sources */,
-				A60EDAF61A38A28000BAEBA9 /* FMDatabasePool.m in Sources */,
-				A60EDAF71A38A28000BAEBA9 /* FMDatabaseQueue.m in Sources */,
+				2D50AB111A43567E000729A2 /* FMDatabaseAdditions.m in Sources */,
 				A6877EB31A3CC9C800EEECCA /* StageViewController.m in Sources */,
 				A61025DF1A3855A700F459A8 /* main.m in Sources */,
-				A610762D1A3E213700D3CDD8 /* DictCollectionViewController.m in Sources */,
-				A610260A1A38748900F459A8 /* GameViewController.m in Sources */,
-				A60EDAF81A38A28000BAEBA9 /* FMResultSet.m in Sources */,
-				A60EDAF51A38A28000BAEBA9 /* FMDatabaseAdditions.m in Sources */,
+				2D50AB121A43567E000729A2 /* FMResultSet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -572,8 +661,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/語宙探險/ThirdParty/TesseractOCR",
+				);
 				INFOPLIST_FILE = "語宙探險/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -583,8 +677,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/語宙探險/ThirdParty/TesseractOCR",
+				);
 				INFOPLIST_FILE = "語宙探險/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-lstdc++";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
