@@ -33,6 +33,6 @@
 
 @protocol PagesViewControllerDelegate <NSObject>
 
-- (void)shouldStartOCR:(int)did word:(NSString*)word;
+- (void)shouldStartOCR:(int)did cutword:(NSString*)word fullword:(NSString*)title;
 
 @end

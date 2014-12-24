@@ -57,7 +57,12 @@
         } else {
             // 取得之前拍的照片
             UIImageView* photo = [[UIImageView alloc] initWithFrame:CGRectMake(cutIndex*80 + 77, 122, 90, 90)];
-            [photo setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@.png", self.thePage.dtitle]]];
+            
+            NSString *fileString = [NSString stringWithFormat:@"Documents/%@.jpg", self.thePage.dtitle];
+            NSString  *pngPath = [NSHomeDirectory() stringByAppendingPathComponent:fileString];
+            [photo setImage:[[UIImage alloc] initWithContentsOfFile:pngPath]];
+            [photo setContentMode:UIViewContentModeScaleAspectFill];
+            [photo setClipsToBounds:YES];
             [self.view addSubview:photo];
         }
     }
@@ -77,8 +82,7 @@
 
 - (void)btnDirtClicked
 {
-    NSLog(@"startOCR %@",cutWord);
-    [self.delegate shouldStartOCR:self.thePage.did word:cutWord];
+    [self.delegate shouldStartOCR:self.thePage.did cutword:cutWord fullword:self.thePage.dtitle];
 }
 
 @end

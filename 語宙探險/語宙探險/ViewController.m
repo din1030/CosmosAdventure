@@ -16,10 +16,9 @@
     UIStoryboardSegue* goStage;
 }
 - (IBAction)btnPlayClicked:(id)sender;
-- (IBAction)btnOpenClicked:(id)sender;
-- (IBAction)btnFirstClicked:(id)sender;
-- (IBAction)btnGame1Clicked:(id)sender;
-- (IBAction)btnGame2Clicked:(id)sender;
+- (IBAction)btnRestartClicked:(id)sender;
+- (IBAction)btnDemoClicked:(id)sender;
+- (IBAction)btnStoryClicked:(id)sender;
 
 
 @end
@@ -50,6 +49,7 @@
         if([rs intForColumnIndex:0] % 2) {
             // 舞台
             StageViewController* stage = [self.storyboard instantiateViewControllerWithIdentifier:@"stage"];
+            stage.delegate = self;
             [self presentViewController:stage animated:NO completion:nil];
         }
         else {
@@ -60,16 +60,83 @@
     }
 }
 
-- (IBAction)btnOpenClicked:(id)sender {
+- (IBAction)btnRestartClicked:(id)sender {
+    NSString* docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString* dbPath = [docPath stringByAppendingPathComponent:@"dump.sqlite"];
+    NSError *error = nil;
+    
+    // 刪除已有資料庫
+    if (![[NSFileManager defaultManager] removeItemAtPath:dbPath error:&error]) {NSLog(@"Error: %@", error);}
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dbPath]) {
+        // database doesn't exist in your library path... copy it from the bundle
+        NSString *sourcePath = [[NSBundle mainBundle] pathForResource:@"dump" ofType:@"sqlite"];
+        
+        if (![[NSFileManager defaultManager] copyItemAtPath:sourcePath toPath:dbPath error:&error]) {
+            NSLog(@"Copy DB file Error: %@", error);
+        }
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"初始化資料庫成功！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alert show];
 }
 
-- (IBAction)btnFirstClicked:(id)sender {
+// 任務完成一半(Demo)
+- (IBAction)btnDemoClicked:(id)sender {
+    NSString* docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString* dbPath = [docPath stringByAppendingPathComponent:@"dump.sqlite"];
+    NSError *error = nil;
+    
+    // 刪除已有資料庫
+    if (![[NSFileManager defaultManager] removeItemAtPath:dbPath error:&error]) {NSLog(@"Error: %@", error);}
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dbPath]) {
+        // database doesn't exist in your library path... copy it from the bundle
+        NSString *sourcePath = [[NSBundle mainBundle] pathForResource:@"dumpDemo" ofType:@"sqlite"];
+        
+        if (![[NSFileManager defaultManager] copyItemAtPath:sourcePath toPath:dbPath error:&error]) {
+            NSLog(@"Copy DB file Error: %@", error);
+        }
+    }
+    
+    // 複製照片檔
+    NSString* jpgPath = [docPath stringByAppendingPathComponent:@"井井有條.jpg"];
+    if (![[NSFileManager defaultManager] removeItemAtPath:jpgPath error:&error]) {NSLog(@"Error: %@", error);}
+    NSString *sourcePath = [[NSBundle mainBundle] pathForResource:@"井井有條" ofType:@"jpg"];
+    if (![[NSFileManager defaultManager] copyItemAtPath:sourcePath toPath:jpgPath error:&error]) {
+        NSLog(@"Copy jpg file Error: %@", error);
+    }
+    jpgPath = [docPath stringByAppendingPathComponent:@"表裡如一.jpg"];
+    if (![[NSFileManager defaultManager] removeItemAtPath:jpgPath error:&error]) {NSLog(@"Error: %@", error);}
+    sourcePath = [[NSBundle mainBundle] pathForResource:@"表裡如一" ofType:@"jpg"];
+    if (![[NSFileManager defaultManager] copyItemAtPath:sourcePath toPath:jpgPath error:&error]) {
+        NSLog(@"Copy jpg file Error: %@", error);
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"前進探險中成功！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alert show];
 }
 
-- (IBAction)btnGame1Clicked:(id)sender {
-}
-
-- (IBAction)btnGame2Clicked:(id)sender {
+// 所有任務完成
+- (IBAction)btnStoryClicked:(id)sender {
+    NSString* docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString* dbPath = [docPath stringByAppendingPathComponent:@"dump.sqlite"];
+    NSError *error = nil;
+    
+    // 刪除已有資料庫
+    if (![[NSFileManager defaultManager] removeItemAtPath:dbPath error:&error]) {NSLog(@"Error: %@", error);}
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dbPath]) {
+        // database doesn't exist in your library path... copy it from the bundle
+        NSString *sourcePath = [[NSBundle mainBundle] pathForResource:@"dumpStory" ofType:@"sqlite"];
+        
+        if (![[NSFileManager defaultManager] copyItemAtPath:sourcePath toPath:dbPath error:&error]) {
+            NSLog(@"Copy DB file Error: %@", error);
+        }
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"" message:@"進入劇情前成功！" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alert show];
 }
 
 #pragma mark - Delegates
@@ -78,8 +145,16 @@
 {
     NSLog(@"changeViewController %@",toView);
     [self dismissViewControllerAnimated:NO completion:nil];
-    StageViewController* stage = [self.storyboard instantiateViewControllerWithIdentifier:toView];
-    [self presentViewController:stage animated:NO completion:nil];
+    if([toView isEqualToString:@"stage"]) {
+        StageViewController* stage = [self.storyboard instantiateViewControllerWithIdentifier:toView];
+        stage.delegate = self;
+        [self presentViewController:stage animated:NO completion:nil];
+    } else if([toView isEqualToString:@"story"]) {
+        StoryViewController* story = [self.storyboard instantiateViewControllerWithIdentifier:toView];
+        story.delegate = self;
+        NSLog(@"it is story");
+        [self presentViewController:story animated:NO completion:nil];
+    }
 }
 
 @end

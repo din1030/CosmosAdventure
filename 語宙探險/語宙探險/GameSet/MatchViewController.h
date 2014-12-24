@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol MatchViewControllerDelegate;
+
 @interface MatchViewController : UIViewController
+
+@property (nonatomic, assign) id<MatchViewControllerDelegate> delegate;
+- (IBAction)btnTestClicked:(id)sender;
+@end
+
+@protocol MatchViewControllerDelegate <NSObject>
+
+- (void)gameComplete;
 
 @end

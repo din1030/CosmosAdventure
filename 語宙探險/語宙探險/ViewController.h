@@ -11,7 +11,7 @@
 #import "StoryViewController.h"
 #import "StageViewController.h"
 
-@interface ViewController : UIViewController<StoryViewControllerDelegate>
+@interface ViewController : UIViewController<StoryViewControllerDelegate, StageViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *curtain;
 @property (retain, nonatomic) NSString *r_id;

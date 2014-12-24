@@ -99,11 +99,10 @@
 
 #pragma mark - OCR delegate
 
-- (void)shouldStartOCR:(int)did word:(NSString *)word
+- (void)shouldStartOCR:(int)did cutword:(NSString *)word fullword:(NSString *)title
 {
-    NSLog(@"shouldStartOCR");
     // 傳回舞台，開啟OCR
-    [self.delegateOCR startOCR:did word:word];
+    [self.delegateOCR startOCR:did cutword:word fullword:title];
 }
 
 @end

@@ -17,6 +17,7 @@
     RundownObject* currentRun;
     RundownObject* nextRun;
     UIPopoverController* popover;
+    UIView* noti;
 }
 @end
 
@@ -49,7 +50,7 @@
     }
 
     // 場景圖片
-    [self.stage_bg setImage:[UIImage imageNamed:[NSString stringWithFormat:@"stage%d.png", currentRun.sid]]];
+    [self.stage_bg setImage:[UIImage imageNamed:[NSString stringWithFormat:@"stage%d.png", currentRun.sid/10]]];
     
     // 擺放能量
     NSString* qry = [NSString stringWithFormat:@"select * from ENERGY_TABLE where e_sid = %d and e_get = 0;", currentRun.sid];
@@ -57,9 +58,7 @@
     while ([rs3 next])
     {
         UIButton* btnE = [[UIButton alloc] initWithFrame:CGRectMake([rs3 intForColumn:@"e_pointx"], [rs3 intForColumn:@"e_pointy"], 47, 56)];
-        //[btnE setBackgroundImage:[UIImage imageNamed:@"bling.png"] forState:UIControlStateNormal];
         [btnE addTarget:self action:@selector(discoverEnergy:) forControlEvents:UIControlEventTouchUpInside];
-        //[btnE setAlpha:0.0]; // 按得到嗎？？
         [btnE setTag:[rs3 intForColumn:@"e_id"]];
         [self.view addSubview:btnE];
     }
@@ -122,20 +121,86 @@
         [temp removeFromSuperview];
     }];
     
-    // 更新資料庫
+    // 更新能量資料庫
     NSString* qry = [NSString stringWithFormat:@"update ENERGY_TABLE set e_get = 1 where e_id = %ld", (long)temp.tag];
     [DatabaseManager executeModifySQL:qry];
+    
+    NSString* noticeText = @"發現一個魔法能量";
+    
+    // 是否全部都已找到
+    qry = [NSString stringWithFormat:@"select count(e_id) from ENERGY_TABLE where e_sid = %d and e_get = 0;", currentRun.sid];
+    FMResultSet *rs = [DatabaseManager executeQuery:qry];
+    while ([rs next])
+    {
+        if([rs intForColumnIndex:0] == 0) {
+            noticeText = @"能量全部收集完成！";
+        }
+    }
+    
+    // 彈出訊息視窗
+    if(noti) {
+        [noti removeFromSuperview];
+    }
+    noti = [[UIView alloc] initWithFrame:CGRectMake(227, 768, 570, 60)];
+    
+    [noti setAlpha:0.8];
+    [noti setBackgroundColor:[UIColor blackColor]];
+    
+    UILabel* lnoti = [[UILabel alloc] initWithFrame:CGRectMake(41, 8, 488, 33)];
+    [lnoti setTextColor:[UIColor whiteColor]];
+    [lnoti setFont:[UIFont systemFontOfSize:24.0]];
+    [lnoti setTextAlignment:NSTextAlignmentCenter];
+    [lnoti setText:noticeText];
+    [noti addSubview:lnoti];
+    
+    [self.view addSubview:noti];
+    
+    [UIView animateWithDuration:0.3 delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [noti setFrame:CGRectMake(227, 768-70, 570, 60)];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.3f delay:2.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [noti setFrame:CGRectMake(227, 768, 570, 60)];
+        } completion:nil];
+    }];
 }
 
 #pragma mark - Delegates
 
 // 開啟OCR視窗
-- (void)startOCR:(int)did word:(NSString *)word
+- (void)startOCR:(int)did cutword:(NSString *)word fullword:(NSString *)title
 {
     [popover dismissPopoverAnimated:YES];
     
+    // 彈出訊息視窗
+    if(noti) {
+        [noti removeFromSuperview];
+    }
+    noti = [[UIView alloc] initWithFrame:CGRectMake(227, 768, 570, 60)];
+    
+    [noti setAlpha:0.8];
+    [noti setBackgroundColor:[UIColor blackColor]];
+    
+    UILabel* lnoti = [[UILabel alloc] initWithFrame:CGRectMake(41, 8, 488, 33)];
+    [lnoti setTextColor:[UIColor whiteColor]];
+    [lnoti setFont:[UIFont systemFontOfSize:24.0]];
+    [lnoti setTextAlignment:NSTextAlignmentCenter];
+    [lnoti setText:@"...裝置準備中..."];
+    [noti addSubview:lnoti];
+    
+    [self.view addSubview:noti];
+    
+    [UIView animateWithDuration:0.3 delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [noti setFrame:CGRectMake(227, 768-70, 570, 60)];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.3f delay:2.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            [noti setFrame:CGRectMake(227, 768, 570, 60)];
+        } completion:nil];
+    }];
+    
     OCRViewController* ocr = [self.storyboard instantiateViewControllerWithIdentifier:@"ocr"];
+    ocr.sid = currentRun.sid;
     ocr.correctWord = word;
+    ocr.fullWord = title;
     [self presentViewController:ocr animated:NO completion:nil];
 }
 
@@ -151,8 +216,92 @@
 - (void)directToGame:(NSString *)name
 {
     [popover dismissPopoverAnimated:YES];
+        if([name isEqualToString:@"找到五個電池作為儲備能源"]) {
+            [self.stage_lines setText:@"只要再找幾個小道具，\r就能用「聚沙成塔」魔法囉！"];
+        } else if([name isEqualToString:@"用OK繃補好UFO的破洞"]) {
+            [self.stage_lines setText:@"這個任務可以使用「言之有物」魔法來達成！"];
+        }
+        [self.stage_lines setHidden:NO];
+        [self.stage_dialog setHidden:NO];
+        [self.stage_character setImage:[UIImage imageNamed:@"c_smile.png"]];
+        [self.stage_character setHidden:NO];
+        
+        [UIView animateWithDuration:0.3 delay:3.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            self.curtain.alpha = 1.0;
+        } completion:^(BOOL finished) {
+            [self.stage_lines setHidden:YES];
+            [self.stage_dialog setHidden:YES];
+            [self.stage_character setHidden:YES];
+        }];
     
-    ////////////////////////////////////
+    [self performSelector:@selector(presentGameView:) withObject:name afterDelay:2.5];
+}
+
+- (void)presentGameView:(NSString *)name
+{
+    if([name isEqualToString:@"找到五個電池作為儲備能源"]) {
+        ItemViewController* itm = [self.storyboard instantiateViewControllerWithIdentifier:@"item"];
+        itm.delegate = self;
+        itm.gameName = name;
+        [self presentViewController:itm animated:NO completion:nil];
+    } else if([name isEqualToString:@"用OK繃補好UFO的破洞"]) {
+        OKbonViewController* okb = [self.storyboard instantiateViewControllerWithIdentifier:@"okbon"];
+        okb.delegate = self;
+        okb.gameName = name;
+        [self presentViewController:okb animated:NO completion:nil];
+    }
+}
+
+- (void)gameComplete:(NSString *)name
+{
+    [UIView animateWithDuration:0.3 delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^(void) {
+        // 畫面變亮
+        self.curtain.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        // 彈出訊息視窗
+        if(noti) {
+            [noti removeFromSuperview];
+        }
+        noti = [[UIView alloc] initWithFrame:CGRectMake(227, 768, 570, 60)];
+        
+        [noti setAlpha:0.8];
+        [noti setBackgroundColor:[UIColor blackColor]];
+        
+        UILabel* lnoti = [[UILabel alloc] initWithFrame:CGRectMake(41, 8, 488, 33)];
+        [lnoti setTextColor:[UIColor whiteColor]];
+        [lnoti setFont:[UIFont systemFontOfSize:24.0]];
+        [lnoti setTextAlignment:NSTextAlignmentCenter];
+        [lnoti setText:[NSString stringWithFormat:@"%@完成！", name]];
+        [noti addSubview:lnoti];
+        
+        [self.view addSubview:noti];
+        
+        [UIView animateWithDuration:0.3 delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            [noti setFrame:CGRectMake(227, 768-70, 570, 60)];
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.3f delay:2.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                [noti setFrame:CGRectMake(227, 768, 570, 60)];
+            } completion:nil];
+        }];
+    }];
+    
+    // 更新任務資料庫
+    NSString* qry = [NSString stringWithFormat:@"update MISSION_TABLE set m_complete = 1 where m_description = '%@'", name];
+    [DatabaseManager executeModifySQL:qry];
+}
+
+- (void)directToStory
+{
+    NSString* qryUpd = [NSString stringWithFormat:@"update RUNDOWN_TABLE set r_state = 2 where r_id = %d", currentRun.rid];
+    [DatabaseManager executeModifySQL:qryUpd];
+    NSLog(@"directToStory");
+    if(nextRun) {
+        qryUpd = [NSString stringWithFormat:@"update RUNDOWN_TABLE set r_state = 1 where r_id = %d", nextRun.rid];
+        [DatabaseManager executeModifySQL:qryUpd];
+        NSLog(@"切換到故事view");
+        // 切換到故事view
+        [self.delegate changeViewController:@"story"];
+    }
 }
 
 @end

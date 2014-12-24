@@ -12,19 +12,26 @@
 
 @interface OCRViewController : UIViewController<G8TesseractDelegate>
 
+@property int sid;
 @property (strong, nonatomic) G8Tesseract *tesseract;
 @property (strong, nonatomic) NSString *correctWord;
+@property (strong, nonatomic) NSString *fullWord;
 
+@property (weak, nonatomic) IBOutlet UIImageView *ocr_bg;
 @property (weak, nonatomic) IBOutlet UIView *photoView;
 @property (weak, nonatomic) IBOutlet UIImageView *photoImage;
 @property (weak, nonatomic) IBOutlet UIButton *btnRedo;
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;
+@property (weak, nonatomic) IBOutlet UIButton *btnShot;
+@property (weak, nonatomic) IBOutlet UIButton *btnOCR;
+@property (weak, nonatomic) IBOutlet UIButton *btnFinish;
 
 @property (weak, nonatomic) IBOutlet UILabel *lblHint;
 
-- (IBAction)tapGesture:(id)sender;
 - (IBAction)btnRedoClicked:(id)sender;
 - (IBAction)btnCloseClicked:(id)sender;
-- (IBAction)tapFinish:(id)sender;
+- (IBAction)btnShotClicked:(id)sender;
+- (IBAction)btnOCRClicked:(id)sender;
+- (IBAction)btnFinishClicked:(id)sender;
 
 @end

@@ -19,6 +19,6 @@
 
 @protocol BookViewControllerDelegate <NSObject>
 
-- (void)startOCR:(int)did word:(NSString *)word;
+- (void)startOCR:(int)did cutword:(NSString*)word fullword:(NSString*)title;
 
 @end

@@ -7,11 +7,14 @@
 //
 
 #import "OCRViewController.h"
+#import "FMDatabase.h"
+#import "DatabaseManager.h"
 
 @interface OCRViewController ()
 {
     AVCaptureSession *myCaptureSession;
     AVCaptureStillImageOutput *myStillImageOutput;
+    AVCaptureVideoPreviewLayer *myPreviewLayer;
 }
 @end
 
@@ -20,17 +23,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    // 場景圖片
+    [self.ocr_bg setImage:[UIImage imageNamed:[NSString stringWithFormat:@"stage%d.png", self.sid/10]]];
+    
     // 設定OCR
-    self.tesseract = [[G8Tesseract alloc] initWithLanguage:@"eng+chi_tra"];
+    self.tesseract = [[G8Tesseract alloc] initWithLanguage:@"eng"];
     self.tesseract.delegate = self;
     
     // Optional: Limit the character set Tesseract should try to recognize from
-    self.tesseract.charWhitelist = self.correctWord;
+    //self.tesseract.charWhitelist = self.correctWord;
     // Optional: Limit the character set Tesseract should not try to recognize from
     //tesseract.charBlacklist = @"OoZzBbSs";
     
     // Optional: Limit the area of the image Tesseract should recognize on to a rectangle
-    self.tesseract.rect = CGRectMake(0, 0, 400, 500);
+    //self.tesseract.rect = CGRectMake(0, 0, 400, 500);
     
     // Optional: Limit recognition time with a few seconds
     self.tesseract.maximumRecognitionTime = 2.0;
@@ -42,21 +48,6 @@
     
     //建立 AVCaptureDeviceInput
     NSArray *myDevices = [AVCaptureDevice devices];
-    
-    for (AVCaptureDevice *device in myDevices) {
-        if ([device position] == AVCaptureDevicePositionBack) {
-            NSLog(@"後攝影機硬體名稱: %@", [device localizedName]);
-        }
-        
-        if ([device position] == AVCaptureDevicePositionFront) {
-            NSLog(@"前攝影機硬體名稱: %@", [device localizedName]);
-        }
-        
-        if ([device hasMediaType:AVMediaTypeAudio]) {
-            NSLog(@"麥克風硬體名稱: %@", [device localizedName]);
-        }
-    }
-    
     //使用後置鏡頭當做輸入
     NSError *error = nil;
     for (AVCaptureDevice *device in myDevices) {
@@ -73,11 +64,8 @@
     }
     
     //建立 AVCaptureVideoPreviewLayer
-    AVCaptureVideoPreviewLayer *myPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:myCaptureSession];
+    myPreviewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:myCaptureSession];
     [myPreviewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
-    
-    //CGRect rect = CGRectMake(160, 180, 320, 240);
-    [myPreviewLayer setBounds:self.photoView.frame];
     
     [self.photoView.layer addSublayer:myPreviewLayer];
     
@@ -90,35 +78,52 @@
     [myStillImageOutput setOutputSettings:myOutputSettings];
     
     [myCaptureSession addOutput:myStillImageOutput];
-    
-//    UIImagePickerController *camera = [[UIImagePickerController alloc] init];
-//    camera.delegate = self;
-//    camera.allowsEditing = YES;
-//    camera.sourceType = UIImagePickerControllerSourceTypeCamera;
-//    
-//    if (![UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-//    {
-//        UIAlertView *myAlertView = [[UIAlertView alloc] initWithTitle:@"通知"
-//                                                              message:@"無法使用相機"
-//                                                             delegate:nil
-//                                                    cancelButtonTitle:@"確認"
-//                                                    otherButtonTitles: nil];
-//        [myAlertView show];
-//    } else {
-//        [self presentViewController:camera animated:YES completion:nil];
-//    }
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void)viewWillLayoutSubviews {
+    myPreviewLayer.frame = CGRectMake(0, 0, 400, 500);
+    if (myPreviewLayer.connection.supportsVideoOrientation) {
+        myPreviewLayer.connection.videoOrientation = [self interfaceOrientationToVideoOrientation:[UIApplication sharedApplication].statusBarOrientation];
+    }
+}
+
+- (AVCaptureVideoOrientation)interfaceOrientationToVideoOrientation:(UIInterfaceOrientation)orientation {
+    switch (orientation) {
+        case UIInterfaceOrientationPortrait:
+            return AVCaptureVideoOrientationPortrait;
+        case UIInterfaceOrientationPortraitUpsideDown:
+            return AVCaptureVideoOrientationPortraitUpsideDown;
+        case UIInterfaceOrientationLandscapeLeft:
+            return AVCaptureVideoOrientationLandscapeLeft;
+        case UIInterfaceOrientationLandscapeRight:
+            return AVCaptureVideoOrientationLandscapeRight;
+        default:
+            break;
+    }
+    return AVCaptureVideoOrientationPortrait;
 }
 
 #pragma mark - Photo
 
-- (IBAction)tapGesture:(id)sender {
-    NSLog(@"tapGesture");
-    /*
+- (IBAction)btnRedoClicked:(id)sender {
+    // 重新拍照
+    [self.photoView setHidden:NO];
+    [self.photoImage setHidden:YES];
+    [self.lblHint setText:@"拍下要找的字"];
+    
+    [self.btnShot setHidden:NO];
+    [self.btnRedo setHidden:YES];
+    [self.btnOCR setHidden:YES];
+    [self.btnFinish setHidden:YES];
+}
+
+- (IBAction)btnCloseClicked:(id)sender {
+    // 回到場景
+    [self dismissViewControllerAnimated:NO completion:nil];
+}
+
+- (IBAction)btnShotClicked:(id)sender {
+    
     AVCaptureConnection *myVideoConnection = nil;
     
     //從 AVCaptureStillImageOutput 中取得正確類型的 AVCaptureConnection
@@ -127,6 +132,9 @@
             if ([[port mediaType] isEqual:AVMediaTypeVideo]) {
                 
                 myVideoConnection = connection;
+                if (myVideoConnection.supportsVideoOrientation) {
+                    myVideoConnection.videoOrientation = [self interfaceOrientationToVideoOrientation:[UIApplication sharedApplication].statusBarOrientation];
+                }
                 break;
             }
         }
@@ -140,54 +148,55 @@
             
             //取得的靜態影像
             UIImage *myImage = [[UIImage alloc] initWithData:imageData];
+            
             [self.photoImage setImage:myImage];
+            [self.photoImage setFrame:CGRectMake(312, 124, 400, 500)];
             [self.photoImage setHidden:NO];
             
-            // 直接進行OCR
-            self.tesseract.image = [myImage g8_blackAndWhite];
-            [self startOCR];
-            
-            // 關閉互動
-            [self.lblHint setText:@""];
-            [self.btnClose setHidden:YES];
-            [self.btnRedo setHidden:YES];
+            // 開啟重拍
+            [self.btnShot setHidden:YES];
+            [self.btnRedo setHidden:NO];
+            // 開啟辨識
+            [self.btnOCR setHidden:NO];
         }
-    }];*/
+    }];
 }
 
-- (IBAction)btnRedoClicked:(id)sender {
-    // 重新拍照
-    [self.photoImage setHidden:YES];
-    [self.lblHint setText:@"點擊畫面拍照"];
+// 進行辨識
+- (IBAction)btnOCRClicked:(id)sender {
+    [self.lblHint setText:@"....辨識中...."];
+    [self startOCR];
+}
+
+// 確定結果
+- (IBAction)btnFinishClicked:(id)sender {
+    // 儲存圖片
+    NSString *fileString = [NSString stringWithFormat:@"Documents/%@.jpg", self.fullWord];
+    NSString  *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:fileString];
     
-    [self.btnRedo setHidden:YES];
-}
+    // Write image to JPG
+    [UIImageJPEGRepresentation(self.photoImage.image, 1.0) writeToFile:jpgPath atomically:YES];
+    
+    // Create file manager
+    NSError *error;
+    NSFileManager *fileMgr = [NSFileManager defaultManager];
+    
+    // Point to Document directory
+    NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+    NSLog(@"Documents directory: %@", [fileMgr contentsOfDirectoryAtPath:documentsDirectory error:&error]);
+    
+    // 更新資料庫
+    NSString* qry = [NSString stringWithFormat:@"update DICTIONARY_TABLE set d_get = 1 where d_title = '%@'", self.fullWord];
+    [DatabaseManager executeModifySQL:qry];
 
-- (IBAction)btnCloseClicked:(id)sender {
     // 回到場景
     [self dismissViewControllerAnimated:NO completion:nil];
 }
-
-- (IBAction)tapFinish:(id)sender {
-    // 確定結果，儲存圖片，更新資料庫
-    NSLog(@"tapFinish");
-    
-    // 回到場景
-    [self dismissViewControllerAnimated:NO completion:nil];
-}
-
-//- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
-//    
-//    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-//    self.photoImageView.image = chosenImage;
-//    
-//    [picker dismissViewControllerAnimated:YES completion:NULL];
-//}
 
 #pragma mark - OCR
 
 - (void)progressImageRecognitionForTesseract:(G8Tesseract *)tesseract {
-    NSLog(@"progress: %lu", (unsigned long)self.tesseract.progress);
+    [self.lblHint setText:[NSString stringWithFormat:@"....%lu....", (unsigned long)self.tesseract.progress]];
 }
 
 - (BOOL)shouldCancelImageRecognitionForTesseract:(G8Tesseract *)tesseract {
@@ -196,6 +205,7 @@
 
 - (void)startOCR
 {
+    self.tesseract.image = [self.photoImage.image g8_blackAndWhite];
     // Start the recognition
     [self.tesseract recognize];
     
@@ -204,23 +214,27 @@
     
     // You could retrieve more information about recognized text with that methods:
     NSArray *characterBoxes = self.tesseract.characterBoxes;
-    NSArray *characterChoices = self.tesseract.characterChoices;
-    NSArray *confidences = [self.tesseract confidencesByIteratorLevel:G8PageIteratorLevelWord];
+    //NSArray *characterChoices = self.tesseract.characterChoices;
+    //NSArray *confidences = [self.tesseract confidencesByIteratorLevel:G8PageIteratorLevelWord];
     UIImage *imageWithBlocks = [self.tesseract imageWithBlocks:characterBoxes drawText:YES thresholded:NO];
     
     // 如果有偵測到正確的字
-    if([[self.tesseract recognizedText] isEqualToString:self.correctWord]) {
+    NSString* onlyForTest = @"A";
+    
+    if([[self.tesseract recognizedText] rangeOfString:onlyForTest].location == NSNotFound) {
+        [self.lblHint setText:@"啥都沒找到,但還是先過關"];
+        // 一切為了測試///////////////////////////////////////////////////////////////////////////////////
+        [self.btnFinish setHidden:NO];
+    } else {
         // 重新顯示照片
         [self.photoImage setImage:imageWithBlocks];
-        // 開啟互動
-        [self.lblHint setText:@"點擊畫面完成"];
-        [self.btnClose setHidden:NO];
-        [self.btnRedo setHidden:NO];
-    } else {
-        // 重新拍照
-        [self.photoImage setHidden:YES];
-        [self.lblHint setText:@"點擊畫面拍照"];
+        [self.photoView setHidden:YES];
+        [self.btnFinish setHidden:NO];
+        [self.lblHint setText:[NSString stringWithFormat:@"找到「%@」囉！", self.correctWord]];
     }
+    // 開啟互動
+    [self.btnOCR setHidden:YES];
+    [self.btnRedo setHidden:NO];
 }
 
 @end

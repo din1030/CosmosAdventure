@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol AimViewControllerDelegate;
+
 @interface AimViewController : UIViewController
+
+@property (nonatomic, assign) id<AimViewControllerDelegate> delegate;
+- (IBAction)btnTestClicked:(id)sender;
+@end
+
+@protocol AimViewControllerDelegate <NSObject>
+
+- (void)gameComplete;
 
 @end

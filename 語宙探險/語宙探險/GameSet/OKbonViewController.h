@@ -8,6 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol OKbonViewControllerDelegate;
+
 @interface OKbonViewController : UIViewController
+
+@property (nonatomic, assign) id<OKbonViewControllerDelegate> delegate;
+@property (nonatomic, strong) NSString* gameName;
+- (IBAction)btnTestClicked:(id)sender;
+
+@end
+
+@protocol OKbonViewControllerDelegate <NSObject>
+
+- (void)gameComplete:(NSString *)name;
 
 @end

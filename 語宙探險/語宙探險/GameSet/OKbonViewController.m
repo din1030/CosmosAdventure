@@ -34,4 +34,9 @@
 }
 */
 
+- (IBAction)btnTestClicked:(id)sender {
+    [self dismissViewControllerAnimated:NO completion:nil];
+    [self.delegate gameComplete:self.gameName];
+}
+
 @end

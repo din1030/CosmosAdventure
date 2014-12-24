@@ -16,6 +16,8 @@
 
 @property int sid;
 @property (weak, nonatomic) IBOutlet UITableView *missionTableView;
+@property (weak, nonatomic) IBOutlet UIButton *btnComplete;
+- (IBAction)btnCompleteClicked:(id)sender;
 
 @end
 
@@ -23,5 +25,6 @@
 
 - (void)directToDictionary;
 - (void)directToGame:(NSString *)name;
+- (void)directToStory;
 
 @end
