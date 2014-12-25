@@ -254,6 +254,7 @@
 
 - (void)gameComplete:(NSString *)name
 {
+    [self dismissViewControllerAnimated:NO completion:nil];
     [UIView animateWithDuration:0.3 delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^(void) {
         // 畫面變亮
         self.curtain.alpha = 0.0;
@@ -294,13 +295,15 @@
 {
     NSString* qryUpd = [NSString stringWithFormat:@"update RUNDOWN_TABLE set r_state = 2 where r_id = %d", currentRun.rid];
     [DatabaseManager executeModifySQL:qryUpd];
-    NSLog(@"directToStory");
+    
     if(nextRun) {
         qryUpd = [NSString stringWithFormat:@"update RUNDOWN_TABLE set r_state = 1 where r_id = %d", nextRun.rid];
         [DatabaseManager executeModifySQL:qryUpd];
         NSLog(@"切換到故事view");
         // 切換到故事view
         [self.delegate changeViewController:@"story"];
+    } else {
+        [self.delegate endOfStory];
     }
 }
 

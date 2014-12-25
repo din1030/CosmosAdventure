@@ -33,5 +33,6 @@
 @protocol StageViewControllerDelegate <NSObject>
 
 - (void)changeViewController:(NSString*)toView;
+- (void)endOfStory;
 
 @end

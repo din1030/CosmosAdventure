@@ -131,9 +131,10 @@
             } completion:^(BOOL finished) {
                 [UIView animateWithDuration:0.3f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
                     [self.story_animate setImage:[UIImage imageNamed:packages[_current_count]]];
+                    NSLog(@"stage image: %@",packages[_current_count]);
                     [self.story_animate setAlpha:1.0];
-                } completion:^(BOOL finished) {
                     _current_count ++;
+                } completion:^(BOOL finished) {
                 }];
             }];
         }
@@ -145,8 +146,8 @@
                 [UIView animateWithDuration:0.3 delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
                     [self.story_lines setText:packages[_current_count]];
                     [self.story_lines setAlpha:1.0];
-                } completion:^(BOOL finished) {
                     _current_count ++;
+                } completion:^(BOOL finished) {
                 }];
             }];
         } else if(currentRun.type == 3) {
@@ -154,6 +155,7 @@
         }
     } else {
         // 完成 rundown, 更新狀態
+        NSLog(@"完成 rundown, 更新狀態");
         [self updateRundownState];
         // 畫面變黑
         [UIView animateWithDuration:0.3 animations:^(void) {
@@ -167,12 +169,11 @@
                 [self performSelector:@selector(prepareStory) withObject:nil afterDelay:0.3];
             } else {
                 // 告訴主頁，叫出舞台view
-                [self dismissViewControllerAnimated:NO completion:nil];
                 [self.delegate changeViewController:@"stage"];
             }
         } else {
             // 最後一個，回主畫面
-            [self dismissViewControllerAnimated:YES completion:nil];
+            [self.delegate endOfStory];
         }
     }
 }
@@ -235,6 +236,8 @@
 
 - (void)gameComplete
 {
+    [self dismissViewControllerAnimated:NO completion:nil];
+    
     // 遊戲關卡完成，進行下一個 rundown
     [self updateRundownState];
     

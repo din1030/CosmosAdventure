@@ -34,5 +34,6 @@
 @protocol StoryViewControllerDelegate <NSObject>
 
 - (void)changeViewController:(NSString*)toView;
+- (void)endOfStory;
 
 @end

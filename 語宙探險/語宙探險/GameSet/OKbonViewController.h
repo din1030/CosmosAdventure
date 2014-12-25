@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 @protocol OKbonViewControllerDelegate;
 
@@ -14,7 +15,12 @@
 
 @property (nonatomic, assign) id<OKbonViewControllerDelegate> delegate;
 @property (nonatomic, strong) NSString* gameName;
-- (IBAction)btnTestClicked:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UIImageView *game_bg;
+@property (weak, nonatomic) IBOutlet UIProgressView *prgrss;
+@property (weak, nonatomic) IBOutlet UIButton *btnFinish;
+
+- (IBAction)btnFinishClicked:(id)sender;
 
 @end
 

@@ -101,7 +101,6 @@
         } completion:^(BOOL finished) {
             // 若全找到，回舞台
             if(isAllFound){
-                [self dismissViewControllerAnimated:NO completion:nil];
                 [self.delegate gameComplete:self.gameName];
                 [UIView animateWithDuration:0.3 delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
                     self.view.alpha = 0.0;

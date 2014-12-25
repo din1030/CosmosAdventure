@@ -157,4 +157,14 @@
     }
 }
 
+- (void)endOfStory
+{
+    [self dismissViewControllerAnimated:NO completion:nil];
+    
+    // 畫面變亮
+    [UIView animateWithDuration:0.3 animations:^(void) {
+        self.curtain.alpha = 0.0;
+    }];
+}
+
 @end
