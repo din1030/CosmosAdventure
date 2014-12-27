@@ -10,12 +10,17 @@
 #import "FMDatabase.h"
 #import "DatabaseManager.h"
 #import "RundownObject.h"
+#import "DialogView.h"
+#import "QuizView.h"
 
 @interface StoryViewController ()
 {
     RundownObject* currentRun;
     RundownObject* nextRun;
     
+    DialogView* storyDialog;
+    QuizView* storyQuiz;
+    UIView* storyCurtain;
     NSMutableArray* packages;
     NSMutableArray* characters;
 }
@@ -26,6 +31,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    storyCurtain = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+    [storyCurtain setBackgroundColor:[UIColor blackColor]];
+    [storyCurtain setAlpha:1.0];
+    [self.view addSubview:storyCurtain];
     
     // 準備劇情
     [self prepareStory];
@@ -38,12 +48,17 @@
 
 - (void)prepareStory
 {
-    [self.story_character setHidden:YES];
-    [self.story_dialog setHidden:YES];
-    [self.story_lines setHidden:YES];
-    [self.story_menu setHidden:YES];
+    storyDialog = [[DialogView alloc] initWithFrame:CGRectMake(252, 505, 772, 243)];
+    [storyDialog setHidden:YES];
+    [self.view addSubview:storyDialog];
+    
+    storyQuiz = [[QuizView alloc] initWithFrame:CGRectMake(252, 538, 520, 174)];
+    [storyQuiz setHidden:YES];
+    [self.view addSubview:storyQuiz];
+    
+    [self.view bringSubviewToFront:storyCurtain];
     [UIView animateWithDuration:0.3 delay:0.0f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        self.curtain.alpha = 0.0;
+        storyCurtain.alpha = 0.0;
     } completion:nil];
     
     // 點擊手勢
@@ -92,32 +107,28 @@
     _current_count = 1;
     if(currentRun.type == 1) {
         [self.story_animate setImage:[UIImage imageNamed:packages[0]]];
-        [self.story_character setHidden:YES];
-        [self.story_dialog setHidden:YES];
-        [self.story_lines setHidden:YES];
+        [storyDialog setHidden:YES];
+        [storyQuiz setHidden:YES];
         [self.view addGestureRecognizer:tapGestureRecognizer];
     } else if (currentRun.type == 2) {
         [self.story_animate setImage:[UIImage imageNamed:[NSString stringWithFormat:@"stage%d.png", currentRun.sid/10]]];
-        [self.story_character setImage:[UIImage imageNamed:characters[0]]];
-        [self.story_character setHidden:NO];
-        [self.story_dialog setImage:[UIImage imageNamed:@"dialog.png"]];
-        [self.story_dialog setHidden:NO];
-        [self.story_lines setText:packages[0]];
-        [self.story_lines setHidden:NO];
+        [storyDialog.imgCharacter setImage:[UIImage imageNamed:characters[0]]];
+        [storyDialog.lblDialog setText:packages[0]];
+        [storyDialog setHidden:NO];
+        [storyQuiz setHidden:YES];
         [self.view addGestureRecognizer:tapGestureRecognizer];
     } else if (currentRun.type == 3) {
         [self.story_animate setImage:[UIImage imageNamed:[NSString stringWithFormat:@"stage%d.png", currentRun.sid/10]]];
+        [storyDialog.imgCharacter setImage:[UIImage imageNamed:@"c_magic.png"]];
+        [storyDialog.lblDialog setText:@""];
+        [storyDialog setHidden:NO];
+        
         // 顯示選項
-        [self.btnOption1 setTitle:packages[0] forState:UIControlStateNormal];
-        [self.btnOption1 setTag:[characters[0] integerValue]];
-        [self.btnOption1 addTarget:self action:@selector(btnOptionClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [self.btnOption2 setTitle:packages[1] forState:UIControlStateNormal];
-        [self.btnOption2 setTag:[characters[1] integerValue]];
-        [self.btnOption2 addTarget:self action:@selector(btnOptionClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [self.btnOption3 setTitle:packages[2] forState:UIControlStateNormal];
-        [self.btnOption3 setTag:[characters[2] integerValue]];
-        [self.btnOption3 addTarget:self action:@selector(btnOptionClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [self.story_menu setHidden:NO];
+        [storyQuiz setOptions:packages tag:characters];
+        [storyQuiz.btnOptionL addTarget:self action:@selector(checkAnswer:) forControlEvents:UIControlEventTouchUpInside];
+        [storyQuiz.btnOptionM addTarget:self action:@selector(checkAnswer:) forControlEvents:UIControlEventTouchUpInside];
+        [storyQuiz.btnOptionR addTarget:self action:@selector(checkAnswer:) forControlEvents:UIControlEventTouchUpInside];
+        [storyQuiz setHidden:NO];
     }
 }
 
@@ -130,8 +141,19 @@
                 [self.story_animate setAlpha:0.0];
             } completion:^(BOOL finished) {
                 [UIView animateWithDuration:0.3f delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                    if([packages[_current_count] isEqualToString:@"story1_4.png"])
+                        [self playSound:@"alien"];
+                    if([packages[_current_count] isEqualToString:@"story1_5.png"])
+                        [self playSound:@"falling"];
+                    if([packages[_current_count] isEqualToString:@"story1_8.png"])
+                        [self playSound:@"correct"];
+                    if([packages[_current_count] isEqualToString:@"story1_10.png"])
+                        [self playSound:@"chorus"];
+                    if([packages[_current_count] isEqualToString:@"story1_11.png"])
+                        [self playSound:@"ufomove"];
+                    if([packages[_current_count] isEqualToString:@"story1_12.png"])
+                        [self playSound:@"fallingdown"];
                     [self.story_animate setImage:[UIImage imageNamed:packages[_current_count]]];
-                    NSLog(@"stage image: %@",packages[_current_count]);
                     [self.story_animate setAlpha:1.0];
                     _current_count ++;
                 } completion:^(BOOL finished) {
@@ -140,12 +162,13 @@
         }
         else if(currentRun.type == 2) {
             // 切換下一句對話
+            [self playSound:@"dialog"];
             [UIView animateWithDuration:0.3f delay:0.f options:UIViewAnimationOptionCurveEaseIn animations:^{
-                [self.story_lines setAlpha:0.0];
+                [storyDialog.lblDialog setAlpha:0.0];
             } completion:^(BOOL finished) {
                 [UIView animateWithDuration:0.3 delay:0.f options:UIViewAnimationOptionCurveEaseInOut animations:^{
-                    [self.story_lines setText:packages[_current_count]];
-                    [self.story_lines setAlpha:1.0];
+                    [storyDialog.lblDialog setText:packages[_current_count]];
+                    [storyDialog.lblDialog setAlpha:1.0];
                     _current_count ++;
                 } completion:^(BOOL finished) {
                 }];
@@ -154,12 +177,18 @@
             
         }
     } else {
+        if(currentRun.type == 2) {
+            // 還是要有結束的音效
+            [self playSound:@"dialog"];
+            [storyDialog setHidden:YES];
+        }
+        
         // 完成 rundown, 更新狀態
         NSLog(@"完成 rundown, 更新狀態");
         [self updateRundownState];
         // 畫面變黑
         [UIView animateWithDuration:0.3 animations:^(void) {
-            self.curtain.alpha = 1.0;
+            storyCurtain.alpha = 1.0;
         }];
         
         if(nextRun) {
@@ -173,9 +202,25 @@
             }
         } else {
             // 最後一個，回主畫面
-            [self.delegate endOfStory];
+            UILabel* tbc = [[UILabel alloc] initWithFrame:CGRectMake(770, 640, 140, 60)];
+            [tbc setFont:[UIFont italicSystemFontOfSize:50]];
+            [tbc setTextColor:[UIColor whiteColor]];
+            [tbc setText:@"待續..."];
+            [tbc setAlpha:0];
+            [self.view addSubview:tbc];
+            
+            [UIView animateWithDuration:0.3 delay:1.5f options:UIViewAnimationOptionCurveEaseInOut animations:^{
+                tbc.alpha = 1.0;
+            } completion:^(BOOL finished){
+                [self performSelector:@selector(backToMain) withObject:nil afterDelay:3.0];
+            }];
         }
     }
+}
+
+- (void)backToMain
+{
+    [self.delegate endOfStory];
 }
 
 // 更新資料庫
@@ -191,28 +236,29 @@
 }
 
 // 選錯成語時的對話
-- (void)showAlertDialog {
+- (void)showAlertDialog
+{
     UITapGestureRecognizer *tapClose;
     tapClose = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(closeAlertDialog)];
     tapClose.numberOfTapsRequired = 1;
-    [self.story_character setImage:[UIImage imageNamed:@"c_shock.png"]];
-    [self.story_character setHidden:NO];
-    [self.story_dialog setImage:[UIImage imageNamed:@"dialog.png"]];
-    [self.story_dialog setHidden:NO];
-    [self.story_lines setText:@"這時候用這句好像不太適合耶！？"];
-    [self.story_lines setHidden:NO];
+    [storyDialog.imgCharacter setImage:[UIImage imageNamed:@"c_shock.png"]];
+    [storyDialog.lblDialog setText:@"這時候用這句好像不太適合耶！？"];
+    [storyQuiz setHidden:YES];
     [self.view addGestureRecognizer:tapClose];
 }
 
-- (void)closeAlertDialog {
-    [self.story_character setHidden:YES];
-    [self.story_dialog setHidden:YES];
-    [self.story_lines setHidden:YES];
-    [self.story_menu setHidden:NO];
+- (void)closeAlertDialog
+{
+    [storyDialog.imgCharacter setImage:[UIImage imageNamed:@"c_magic.png"]];
+    [storyDialog.lblDialog setText:@""];
+    [storyQuiz setHidden:NO];
 }
 
-- (void)btnOptionClicked:(id)sender {
+- (void)checkAnswer:(id)sender
+{
+    [storyQuiz setHidden:YES];
     if([(UIButton*)sender tag] == 1) {
+        [self playSound:@"correct"];
         // 開啟小遊戲視窗
         if(currentRun.rid == 5) {
             // 劇情關卡一之一：配對物品
@@ -226,9 +272,22 @@
             [self presentViewController:aim animated:NO completion:nil];
         }
     } else {
-        // 對話：選錯了喔
-        [self.story_menu setHidden:YES];
+        [self playSound:@"error"];
         [self showAlertDialog];
+    }
+}
+
+// 播放音效
+- (void)playSound:(NSString*)fileName
+{
+    NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:fileName ofType:@"mp3"]];
+    NSError* err;
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&err];
+    if(err) {
+        NSLog(@"PlaySound Error: %@", [err localizedDescription]);
+    } else {
+        [self.audioPlayer setDelegate:self];
+        [self.audioPlayer play];
     }
 }
 
@@ -243,7 +302,7 @@
     
     // 畫面變黑
     [UIView animateWithDuration:0.3 animations:^(void) {
-        self.curtain.alpha = 1.0;
+        storyCurtain.alpha = 1.0;
     }];
     
     if(nextRun) {

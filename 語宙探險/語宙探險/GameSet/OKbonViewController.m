@@ -7,6 +7,8 @@
 //
 
 #import "OKbonViewController.h"
+#import "DialogView.h"
+#import "GoalView.h"
 
 #define GOAL_COUNT      12   // 四的倍數
 #define HOLE_SIZE       400  // 四的倍數
@@ -18,7 +20,10 @@
     double lowPassResults;
     double lastDetectTime;
     NSTimer *levelTimer;
+    NSMutableArray *okbons;
     AVAudioRecorder *recorder;
+    GoalView* glv;
+    DialogView* dlg;
 }
 @end
 
@@ -27,7 +32,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    glv = [[GoalView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+    [glv.lblTitle setText:@"【言而有信】"];
+    [glv.lblDetail setText:self.gameName];
+    [glv.btnConfirm addTarget:self action:@selector(closeGoalView) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:glv];
+    
+    dlg = [[DialogView alloc] initWithFrame:CGRectMake(252, 505, 772, 243)];
+    [dlg setHidden:YES];
+    [dlg.lblDialog setText:@"【言而有信】魔法成功！"];
+    [dlg.imgCharacter setImage:[UIImage imageNamed:@"c_magic.png"]];
+    [self.view addSubview:dlg];
+    
     totalCount = 0;
+    lastDetectTime = 0;
+    okbons = [[NSMutableArray alloc] init];
     
     NSError *error;
     NSURL *url = [NSURL fileURLWithPath:@"/dev/null"];
@@ -48,10 +67,6 @@
     recorder.meteringEnabled = YES;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayAndRecord error:nil];
     [[AVAudioSession sharedInstance] setActive:YES error:nil];
-    [recorder record];
-    
-    lastDetectTime = 0;
-    levelTimer = [NSTimer scheduledTimerWithTimeInterval: 0.03 target: self selector: @selector(levelTimerCallback:) userInfo: nil repeats: YES];
     
     self.prgrss.transform = CGAffineTransformMakeScale(1.0f, 25.0f);
     [self.prgrss setProgress:0];
@@ -80,6 +95,7 @@
         if(recorder.currentTime - lastDetectTime >= DETECT_PULSE) {
             // 貼上一個OK繃
             [self.view addSubview:[self randomOKbon]];
+            [self playSound:@"item"];
             totalCount ++;
             
             if(totalCount == GOAL_COUNT) {
@@ -87,10 +103,20 @@
                 [recorder stop];
                 [levelTimer invalidate];
                 [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
-                
                 [self.prgrss setHidden:YES];
                 [self.btnFinish setHidden:NO];
-                [self.view bringSubviewToFront:self.btnFinish];
+                
+                for(int i = 0; i < okbons.count; i++) {
+                    [UIView animateWithDuration:0.8 animations:^{
+                        [(UIImageView*)okbons[i] setAlpha:0];
+                    }];
+                }
+                
+                [UIView animateWithDuration:1.6f delay:0.8f options:UIViewAnimationOptionCurveEaseIn animations:^{
+                    [self.imgUFO setAlpha:0.0];
+                    [self playSound:@"magic"];
+                } completion:^(BOOL finished) {
+                }];
             }
             lastDetectTime = recorder.currentTime;
         }
@@ -123,11 +149,68 @@
     int angle = arc4random_uniform(180);
     okb.transform = CGAffineTransformMakeRotation(angle);
     
+    [okbons addObject:okb];
+    
     return okb;
 }
 
-- (IBAction)btnFinishClicked:(id)sender {
-    [self.delegate gameComplete:self.gameName];
+- (IBAction)btnFinishClicked:(id)sender
+{
+    [self playSound:@"dialog"];
+    [UIView animateWithDuration:0.2 animations:^{
+        [self.view setAlpha:0];
+    }];
+}
+
+- (void)complete
+{
+    [self playSound:@"dialog"];
+    [UIView animateWithDuration:0.2 animations:^{
+        [self.view setAlpha:0];
+    }];
+}
+
+- (void)closeGoalView
+{
+    [self playSound:@"click"];
+    [UIView animateWithDuration:0.3 delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [glv setAlpha:0];
+    } completion:^(BOOL finished) {
+        [glv removeFromSuperview];
+        
+        [recorder record];
+        levelTimer = [NSTimer scheduledTimerWithTimeInterval: 0.03 target: self selector: @selector(levelTimerCallback:) userInfo: nil repeats: YES];
+    }];
+}
+
+#pragma mark - AVAudioPlayer Delegate
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
+    if([player.url isEqual:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"magic" ofType:@"mp3"]]]) {
+        [dlg setHidden:NO];
+        UITapGestureRecognizer *tapGestureRecognizer;
+        tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(complete)];
+        tapGestureRecognizer.numberOfTapsRequired = 1;
+        [self.view addGestureRecognizer:tapGestureRecognizer];
+    }
+    if([player.url isEqual:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"dialog" ofType:@"mp3"]]]) {
+        [self.delegate gameComplete:self.gameName];
+    }
+}
+
+// 播放音效
+- (void)playSound:(NSString*)fileName
+{
+    NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:fileName ofType:@"mp3"]];
+    NSError* err;
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&err];
+    if(err) {
+        NSLog(@"PlaySound Error: %@", [err localizedDescription]);
+    } else {
+        [self.audioPlayer setDelegate:self];
+        [self.audioPlayer play];
+    }
 }
 
 @end

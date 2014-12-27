@@ -18,12 +18,14 @@
 @property NSUInteger pageIndex;
 @property (strong, nonatomic) DictionaryObject *thePage;
 
+@property (weak, nonatomic) IBOutlet UIImageView *page_bg;
 @property (weak, nonatomic) IBOutlet UILabel *lblTitle;
 @property (weak, nonatomic) IBOutlet UILabel *lblDescription;
 @property (weak, nonatomic) IBOutlet UILabel *lblPage;
 @property (weak, nonatomic) IBOutlet UIButton *btnClose;
 @property (weak, nonatomic) IBOutlet UIButton *btnPrevious;
 @property (weak, nonatomic) IBOutlet UIButton *btnNext;
+@property (weak, nonatomic) IBOutlet UIImageView *imgRepair;
 
 - (IBAction)btnCloseClicked:(id)sender;
 - (IBAction)btnNextClicked:(id)sender;
@@ -33,6 +35,6 @@
 
 @protocol PagesViewControllerDelegate <NSObject>
 
-- (void)shouldStartOCR:(int)did cutword:(NSString*)word fullword:(NSString*)title;
+- (void)shouldStartOCR:(int)did cutword:(NSString*)word fullword:(NSString*)title description:(NSString*)description;
 
 @end

@@ -235,7 +235,22 @@
 }
 
 - (IBAction)btnCompleteClicked:(id)sender {
+    [self playSound:@"click"];
     [self.delegate directToStory];
+}
+
+// 播放音效
+- (void)playSound:(NSString*)fileName
+{
+    NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:fileName ofType:@"mp3"]];
+    NSError* err;
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&err];
+    if(err) {
+        NSLog(@"PlaySound Error: %@", [err localizedDescription]);
+    } else {
+        [self.audioPlayer setDelegate:self];
+        [self.audioPlayer play];
+    }
 }
 
 @end

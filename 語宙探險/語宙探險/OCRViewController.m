@@ -27,11 +27,11 @@
     [self.ocr_bg setImage:[UIImage imageNamed:[NSString stringWithFormat:@"stage%d.png", self.sid/10]]];
     
     // 設定OCR
-    self.tesseract = [[G8Tesseract alloc] initWithLanguage:@"eng"];
+    self.tesseract = [[G8Tesseract alloc] initWithLanguage:@"word"];
     self.tesseract.delegate = self;
     
     // Optional: Limit the character set Tesseract should try to recognize from
-    //self.tesseract.charWhitelist = self.correctWord;
+    self.tesseract.charWhitelist = self.correctWord;
     // Optional: Limit the character set Tesseract should not try to recognize from
     //tesseract.charBlacklist = @"OoZzBbSs";
     
@@ -103,9 +103,24 @@
     return AVCaptureVideoOrientationPortrait;
 }
 
+// 播放音效
+- (void)playSound:(NSString*)fileName
+{
+    NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:fileName ofType:@"mp3"]];
+    NSError* err;
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&err];
+    if(err) {
+        NSLog(@"PlaySound Error: %@", [err localizedDescription]);
+    } else {
+        [self.audioPlayer setDelegate:self];
+        [self.audioPlayer play];
+    }
+}
+
 #pragma mark - Photo
 
 - (IBAction)btnRedoClicked:(id)sender {
+    [self playSound:@"click"];
     // 重新拍照
     [self.photoView setHidden:NO];
     [self.photoImage setHidden:YES];
@@ -123,6 +138,7 @@
 }
 
 - (IBAction)btnShotClicked:(id)sender {
+    [self playSound:@"click"];
     
     AVCaptureConnection *myVideoConnection = nil;
     
@@ -164,12 +180,14 @@
 
 // 進行辨識
 - (IBAction)btnOCRClicked:(id)sender {
+    [self playSound:@"click"];
     [self.lblHint setText:@"....辨識中...."];
     [self startOCR];
 }
 
 // 確定結果
 - (IBAction)btnFinishClicked:(id)sender {
+    [self playSound:@"click"];
     // 儲存圖片
     NSString *fileString = [NSString stringWithFormat:@"Documents/%@.jpg", self.fullWord];
     NSString  *jpgPath = [NSHomeDirectory() stringByAppendingPathComponent:fileString];
@@ -177,20 +195,12 @@
     // Write image to JPG
     [UIImageJPEGRepresentation(self.photoImage.image, 1.0) writeToFile:jpgPath atomically:YES];
     
-    // Create file manager
-    NSError *error;
-    NSFileManager *fileMgr = [NSFileManager defaultManager];
-    
-    // Point to Document directory
-    NSString *documentsDirectory = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-    NSLog(@"Documents directory: %@", [fileMgr contentsOfDirectoryAtPath:documentsDirectory error:&error]);
-    
     // 更新資料庫
     NSString* qry = [NSString stringWithFormat:@"update DICTIONARY_TABLE set d_get = 1 where d_title = '%@'", self.fullWord];
     [DatabaseManager executeModifySQL:qry];
 
     // 回到場景
-    [self dismissViewControllerAnimated:NO completion:nil];
+    [self.delegate repairedPage:self.fullWord description:self.ddescription cutword:self.correctWord];
 }
 
 #pragma mark - OCR
@@ -219,10 +229,8 @@
     UIImage *imageWithBlocks = [self.tesseract imageWithBlocks:characterBoxes drawText:YES thresholded:NO];
     
     // 如果有偵測到正確的字
-    NSString* onlyForTest = @"A";
-    
-    if([[self.tesseract recognizedText] rangeOfString:onlyForTest].location == NSNotFound) {
-        [self.lblHint setText:@"啥都沒找到,但還是先過關"];
+    if([[self.tesseract recognizedText] rangeOfString:self.correctWord].location == NSNotFound) {
+        [self.lblHint setText:@"啥都沒找到，但還是先過關"];
         // 一切為了測試///////////////////////////////////////////////////////////////////////////////////
         [self.btnFinish setHidden:NO];
     } else {

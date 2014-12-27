@@ -7,25 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import "MatchViewController.h"
 #import "AimViewController.h"
 
 @protocol StoryViewControllerDelegate;
 
-@interface StoryViewController : UIViewController<MatchViewControllerDelegate, AimViewControllerDelegate>
+@interface StoryViewController : UIViewController<AVAudioPlayerDelegate, MatchViewControllerDelegate, AimViewControllerDelegate>
 
 @property (nonatomic, assign) id<StoryViewControllerDelegate> delegate;
 
-@property (weak, nonatomic) IBOutlet UIView *curtain;
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
+
 @property (strong, nonatomic) IBOutlet UIImageView *story_animate;
-@property (weak, nonatomic) IBOutlet UIImageView *story_dialog;
-@property (weak, nonatomic) IBOutlet UIImageView *story_character;
-@property (weak, nonatomic) IBOutlet UILabel *story_lines;
-@property (weak, nonatomic) IBOutlet UIView *story_menu;
-@property (weak, nonatomic) IBOutlet UILabel *lblMenuTitle;
-@property (weak, nonatomic) IBOutlet UIButton *btnOption1;
-@property (weak, nonatomic) IBOutlet UIButton *btnOption2;
-@property (weak, nonatomic) IBOutlet UIButton *btnOption3;
+
 @property (nonatomic) int r_img_count;
 @property (nonatomic) int current_count;
 

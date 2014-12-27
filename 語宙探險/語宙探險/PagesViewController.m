@@ -25,10 +25,15 @@
     [self.btnClose setHidden:YES];
     [self.btnNext setHidden:YES];
     [self.btnPrevious setHidden:YES];
+    [self.imgRepair setHidden:YES];
     
     // 填入內容
-    [self loadContent];
-    [self.lblPage setText:[NSString stringWithFormat:@"第 %d 頁", self.thePage.did]];
+    if(self.pageIndex == 0) {
+        [self.page_bg setImage:[UIImage imageNamed:@"dic_cover.png"]];
+    } else {
+        [self loadContent];
+        [self.lblPage setText:[NSString stringWithFormat:@"第 %d 頁", self.thePage.did]];
+    }
 }
 
 - (void)didReceiveMemoryWarning {
@@ -43,27 +48,24 @@
     } else {
         // 缺字
         int cutIndex = self.thePage.dcutout - 1;
-        cutWord = [self.thePage.dtitle substringWithRange:NSMakeRange(cutIndex, 1)];
-        NSString* cutTitle = [self.thePage.dtitle stringByReplacingCharactersInRange:NSMakeRange(cutIndex,1) withString:@"＋"];
-        [self.lblTitle setText:cutTitle];
         
         // 尚未拿到
         if(self.thePage.dget == 0) {
-            UIButton* btnDirt = [[UIButton alloc] initWithFrame:CGRectMake(cutIndex*80 + 77, 122, 90, 90)];
+            cutWord = [self.thePage.dtitle substringWithRange:NSMakeRange(cutIndex, 1)];
+            NSString* cutTitle = [self.thePage.dtitle stringByReplacingCharactersInRange:NSMakeRange(cutIndex,1) withString:@"＋"];
+            [self.lblTitle setText:cutTitle];
+            
+            // 髒髒按鈕
+            UIButton* btnDirt = [[UIButton alloc] initWithFrame:CGRectMake(self.thePage.dcutout*80, 122, 90, 90)];
             [btnDirt setBackgroundImage:[UIImage imageNamed:@"dirt.png"] forState:UIControlStateNormal];
             [btnDirt addTarget:self action:@selector(btnDirtClicked) forControlEvents:UIControlEventTouchUpInside];
             [btnDirt setTag:self.thePage.did];
             [self.view addSubview:btnDirt];
         } else {
-            // 取得之前拍的照片
-            UIImageView* photo = [[UIImageView alloc] initWithFrame:CGRectMake(cutIndex*80 + 77, 122, 90, 90)];
-            
-            NSString *fileString = [NSString stringWithFormat:@"Documents/%@.jpg", self.thePage.dtitle];
-            NSString  *pngPath = [NSHomeDirectory() stringByAppendingPathComponent:fileString];
-            [photo setImage:[[UIImage alloc] initWithContentsOfFile:pngPath]];
-            [photo setContentMode:UIViewContentModeScaleAspectFill];
-            [photo setClipsToBounds:YES];
-            [self.view addSubview:photo];
+            // 補丁
+            [self.imgRepair setFrame:CGRectMake(self.thePage.dcutout*80, 122, 90, 90)];
+            [self.imgRepair setHidden:NO];
+            [self.lblTitle setText:self.thePage.dtitle];
         }
     }
     [self.lblDescription setText:self.thePage.ddescription];
@@ -82,7 +84,7 @@
 
 - (void)btnDirtClicked
 {
-    [self.delegate shouldStartOCR:self.thePage.did cutword:cutWord fullword:self.thePage.dtitle];
+    [self.delegate shouldStartOCR:self.thePage.did cutword:cutWord fullword:self.thePage.dtitle  description:self.thePage.ddescription];
 }
 
 @end

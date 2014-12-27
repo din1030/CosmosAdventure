@@ -24,6 +24,7 @@
     self.dataSource = self;
     
     pages = [[NSMutableArray alloc] init];
+    [pages addObject:@"cover"];
     FMResultSet *rs = [DatabaseManager executeQuery:@"select * from DICTIONARY_TABLE order by d_id;"];
     while ([rs next])
     {
@@ -54,6 +55,7 @@
     }
     
     index--;
+    [self playSound:@"page"];
     return [self viewControllerAtIndex:index];
 }
 
@@ -69,6 +71,7 @@
     if (index == [pages count]) {
         return nil;
     }
+    [self playSound:@"page"];
     return [self viewControllerAtIndex:index];
 }
 
@@ -80,10 +83,11 @@
     
     // Create a new view controller and pass suitable data.
     PagesViewController *pageView = [self.storyboard instantiateViewControllerWithIdentifier:@"dictionary"];
-    pageView.thePage = pages[index];
     pageView.pageIndex = index;
     pageView.delegate = self;
-    
+    if(index) {
+        pageView.thePage = pages[index];
+    }
     return pageView;
 }
 
@@ -97,12 +101,26 @@
     return 0;
 }
 
+// 播放音效
+- (void)playSound:(NSString*)fileName
+{
+    NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:fileName ofType:@"mp3"]];
+    NSError* err;
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&err];
+    if(err) {
+        NSLog(@"PlaySound Error: %@", [err localizedDescription]);
+    } else {
+        [self.audioPlayer setDelegate:self];
+        [self.audioPlayer play];
+    }
+}
+
 #pragma mark - OCR delegate
 
-- (void)shouldStartOCR:(int)did cutword:(NSString *)word fullword:(NSString *)title
+- (void)shouldStartOCR:(int)did cutword:(NSString *)word fullword:(NSString *)title description:(NSString *)description
 {
     // 傳回舞台，開啟OCR
-    [self.delegateOCR startOCR:did cutword:word fullword:title];
+    [self.delegateOCR startOCR:did cutword:word fullword:title description:description];
 }
 
 @end

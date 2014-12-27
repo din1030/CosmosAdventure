@@ -7,18 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import "PagesViewController.h"
 
 @protocol BookViewControllerDelegate;
 
-@interface BookViewController : UIPageViewController<UIPageViewControllerDataSource, PagesViewControllerDelegate>
+@interface BookViewController : UIPageViewController<UIPageViewControllerDataSource, AVAudioPlayerDelegate,  PagesViewControllerDelegate>
 
 @property (nonatomic, assign) id<BookViewControllerDelegate> delegateOCR;
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 
 @end
 
 @protocol BookViewControllerDelegate <NSObject>
 
-- (void)startOCR:(int)did cutword:(NSString*)word fullword:(NSString*)title;
+- (void)startOCR:(int)did cutword:(NSString*)word fullword:(NSString*)title description:(NSString *)description;
 
 @end

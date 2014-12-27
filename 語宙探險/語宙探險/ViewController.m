@@ -20,7 +20,6 @@
 - (IBAction)btnDemoClicked:(id)sender;
 - (IBAction)btnStoryClicked:(id)sender;
 
-
 @end
 
 @implementation ViewController
@@ -28,6 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    [self playSound:@"bg_music"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -37,6 +37,7 @@
 
 - (IBAction)btnPlayClicked:(id)sender {
     // 繼續遊戲
+    [self.audioPlayer setVolume:self.audioPlayer.volume/4];
     // 畫面變黑
     [UIView animateWithDuration:0.3 animations:^(void) {
         self.curtain.alpha = 1.0;
@@ -143,7 +144,6 @@
 
 - (void)changeViewController:(NSString *)toView
 {
-    NSLog(@"changeViewController %@",toView);
     [self dismissViewControllerAnimated:NO completion:nil];
     if([toView isEqualToString:@"stage"]) {
         StageViewController* stage = [self.storyboard instantiateViewControllerWithIdentifier:toView];
@@ -164,7 +164,23 @@
     // 畫面變亮
     [UIView animateWithDuration:0.3 animations:^(void) {
         self.curtain.alpha = 0.0;
+        [self.audioPlayer setVolume:self.audioPlayer.volume*4];
     }];
+}
+
+// 播放音樂
+- (void)playSound:(NSString*)fileName
+{
+    NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:fileName ofType:@"mp3"]];
+    NSError* err;
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&err];
+    if(err) {
+        NSLog(@"PlaySound Error: %@", [err localizedDescription]);
+    } else {
+        [self.audioPlayer setDelegate:self];
+        [self.audioPlayer setNumberOfLoops:-1];
+        [self.audioPlayer play];
+    }
 }
 
 @end

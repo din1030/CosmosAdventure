@@ -7,26 +7,32 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import <QuartzCore/QuartzCore.h>
 #import "ApadViewController.h"
 #import "BookViewController.h"
 #import "OKbonViewController.h"
 #import "ItemViewController.h"
+#import "OCRViewController.h"
 
 @protocol StageViewControllerDelegate;
 
-@interface StageViewController : UIViewController<UIPopoverControllerDelegate, ApadViewControllerDelegate, BookViewControllerDelegate, OKbonViewControllerDelegate, ItemViewControllerDelegate>
+@interface StageViewController : UIViewController<UIPopoverControllerDelegate, AVAudioPlayerDelegate, ApadViewControllerDelegate, BookViewControllerDelegate, OKbonViewControllerDelegate, ItemViewControllerDelegate, OCRViewControllerDelegate>
 
 @property (nonatomic, assign) id<StageViewControllerDelegate> delegate;
 
-@property (weak, nonatomic) IBOutlet UIView *curtain;
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
+
 @property (strong, nonatomic) IBOutlet UIImageView *stage_bg;
-@property (weak, nonatomic) IBOutlet UIImageView *stage_dialog;
-@property (weak, nonatomic) IBOutlet UIImageView *stage_character;
-@property (weak, nonatomic) IBOutlet UILabel *stage_lines;
 
 @property (weak, nonatomic) IBOutlet UIButton *btnDictionary;
 @property (weak, nonatomic) IBOutlet UIButton *btnApad;
+@property (weak, nonatomic) IBOutlet UIView *pageView;
+@property (weak, nonatomic) IBOutlet UILabel *lblPageTitle;
+@property (weak, nonatomic) IBOutlet UILabel *lblPageDetail;
+@property (weak, nonatomic) IBOutlet UILabel *lblCutWord;
+@property (weak, nonatomic) IBOutlet UIImageView *imgDirt;
+@property (weak, nonatomic) IBOutlet UIImageView *imgRepair;
 
 @end
 

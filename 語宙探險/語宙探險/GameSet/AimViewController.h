@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import <CoreMotion/CoreMotion.h>
 #import <QuartzCore/CAAnimation.h>
 
 @protocol AimViewControllerDelegate;
 
-@interface AimViewController : UIViewController
+@interface AimViewController : UIViewController<AVAudioPlayerDelegate>
 
 @property (nonatomic, assign) id<AimViewControllerDelegate> delegate;
 
@@ -24,10 +25,11 @@
 @property (strong, nonatomic) CMMotionManager  *motionManager;
 @property (strong, nonatomic) NSOperationQueue *queue;
 @property (strong, nonatomic) NSDate *lastUpdateTime;
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 
 @property (weak, nonatomic) IBOutlet UIImageView *game_bg;
 @property (weak, nonatomic) IBOutlet UIImageView *game_boy;
-@property (weak, nonatomic) IBOutlet UILabel *lblOutline;
+@property (weak, nonatomic) IBOutlet UIImageView *game_boy_bk;
 
 @end
 

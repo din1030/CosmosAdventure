@@ -7,15 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 
 @protocol ItemViewControllerDelegate;
 
-@interface ItemViewController : UIViewController
+@interface ItemViewController : UIViewController<AVAudioPlayerDelegate>
 
 @property (nonatomic, assign) id<ItemViewControllerDelegate> delegate;
 
 @property (nonatomic, strong) NSString* gameName;
-@property (weak, nonatomic) IBOutlet UILabel *lblTitle;
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 
 @end
 

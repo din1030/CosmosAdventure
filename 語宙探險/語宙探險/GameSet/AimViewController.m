@@ -8,12 +8,16 @@
 
 #import "AimViewController.h"
 #import "AimView.h"
+#import "DialogView.h"
+#import "GoalView.h"
 
 #define kUpdateInterval (1.0f / 60.0f)
 
 @interface AimViewController ()
 {
     AimView* crosshairs;
+    GoalView* glv;
+    DialogView* dlg;
 }
 @end
 
@@ -22,25 +26,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // 加入準星
+    glv = [[GoalView alloc] initWithFrame:CGRectMake(0, 0, 1024, 768)];
+    [glv.lblTitle setText:@"【知己知彼】"];
+    [glv.lblDetail setText:@"移動魔法準星對準目標"];
+    [glv.btnConfirm addTarget:self action:@selector(closeGoalView) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:glv];
+    
+    dlg = [[DialogView alloc] initWithFrame:CGRectMake(252, 505, 772, 243)];
+    [dlg setHidden:YES];
+    [dlg.lblDialog setText:@"【知己知彼】魔法成功！"];
+    [dlg.imgCharacter setImage:[UIImage imageNamed:@"c_magic.png"]];
+    [self.view addSubview:dlg];
+    
+    // 設定準星
     crosshairs = [[AimView alloc] initWithFrame:self.view.frame];
     [crosshairs setBackgroundColor:[UIColor clearColor]];
-    [self.view addSubview:crosshairs];
-    
-    // Movement of aim
-    self.lastUpdateTime = [[NSDate alloc] init];
-    
-    self.currentPoint  = CGPointMake(300, 300);
-    self.motionManager = [[CMMotionManager alloc]  init];
-    self.queue         = [[NSOperationQueue alloc] init];
-    
-    self.motionManager.accelerometerUpdateInterval = kUpdateInterval;
-    
-    [self.motionManager startAccelerometerUpdatesToQueue:self.queue withHandler:
-     ^(CMAccelerometerData *accelerometerData, NSError *error) {
-         [(id) self setAcceleration:accelerometerData.acceleration];
-         [self performSelectorOnMainThread:@selector(update) withObject:nil waitUntilDone:NO];
-     }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -83,15 +83,48 @@
         
         [self.motionManager stopAccelerometerUpdates];
         
-        // 顯示學校縮影
-        [self.game_bg setImage:nil];
-        [self.lblOutline setHidden:NO];
+        // 小男孩顯現
+        [UIView animateWithDuration:0.1f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            self.game_boy_bk.alpha = 0.7;
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.1f delay:0.1f options:UIViewAnimationOptionCurveEaseIn animations:^{
+                self.game_boy_bk.alpha = 1.0;
+            } completion:^(BOOL finished) {
+                [UIView animateWithDuration:0.2f delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+                    self.game_boy_bk.alpha = 0.3;
+                } completion:^(BOOL finished) {
+                    [self playSound:@"magic"];
+                    [UIView animateWithDuration:1.0f delay:0.2f options:UIViewAnimationOptionCurveEaseIn animations:^{
+                        self.game_boy_bk.alpha = 1;
+                    } completion:^(BOOL finished) {
+                        self.game_boy_bk.alpha = 0;
+                    }];
+                }];
+            }];
+        }];
         
-        // 加入點擊手勢，點後回故事view
-        UITapGestureRecognizer *tapGestureRecognizer;
-        tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(complete)];
-        tapGestureRecognizer.numberOfTapsRequired = 1;
-        [self.view addGestureRecognizer:tapGestureRecognizer];
+        // 顯示學校縮影
+        [UIView animateWithDuration:0.5f delay:2.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+            [self.game_boy setAlpha:0.0];
+            [self.game_bg setAlpha:0.3];
+        } completion:^(BOOL finished) {
+            [crosshairs setHidden:YES];
+            [self.game_bg setImage:[UIImage imageNamed:@"stage2.png"]];
+            [dlg setAlpha:0];
+            [dlg setHidden:NO];
+            [UIView animateWithDuration:0.3f delay:0.3f options:UIViewAnimationOptionCurveEaseIn animations:^{
+                [self.game_bg setAlpha:1];
+            } completion:^(BOOL finished) {
+                [UIView animateWithDuration:0.3f delay:1.5f options:UIViewAnimationOptionCurveEaseIn animations:^{
+                    [dlg setAlpha:1];
+                } completion:^(BOOL finished){
+                    UITapGestureRecognizer *tapGestureRecognizer;
+                    tapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(complete)];
+                    tapGestureRecognizer.numberOfTapsRequired = 1;
+                    [self.view addGestureRecognizer:tapGestureRecognizer];
+                }];
+            }];
+        }];
     }
 }
 
@@ -120,10 +153,58 @@
 
 - (void)complete
 {
-    //[self.game_bg setImage:nil];
-    [self.delegate gameComplete];
-    [self.lblOutline setHidden:YES];
-    [self.game_boy setHidden:YES];
+    [self playSound:@"dialog"];
+}
+
+- (void)closeGoalView
+{
+    [self playSound:@"click"];
+    [UIView animateWithDuration:0.3 delay:0.0f options:UIViewAnimationOptionCurveEaseIn animations:^{
+        [glv setAlpha:0];
+    } completion:^(BOOL finished) {
+        [glv removeFromSuperview];
+        
+        [self.view addSubview:crosshairs];
+        
+        // Movement of aim
+        self.lastUpdateTime = [[NSDate alloc] init];
+        
+        self.currentPoint  = CGPointMake(300, 300);
+        self.motionManager = [[CMMotionManager alloc]  init];
+        self.queue         = [[NSOperationQueue alloc] init];
+        
+        self.motionManager.accelerometerUpdateInterval = kUpdateInterval;
+        [self.motionManager startAccelerometerUpdatesToQueue:self.queue withHandler:
+         ^(CMAccelerometerData *accelerometerData, NSError *error) {
+             [(id) self setAcceleration:accelerometerData.acceleration];
+             [self performSelectorOnMainThread:@selector(update) withObject:nil waitUntilDone:NO];
+         }];
+    }];
+}
+
+#pragma mark - AVAudioPlayer Delegate
+
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
+{
+    if([player.url isEqual:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"magic" ofType:@"mp3"]]]) {
+    }
+    if([player.url isEqual:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"dialog" ofType:@"mp3"]]]) {
+        [self.delegate gameComplete];
+    }
+}
+
+// 播放音效
+- (void)playSound:(NSString*)fileName
+{
+    NSURL* url = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:fileName ofType:@"mp3"]];
+    NSError* err;
+    self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:&err];
+    if(err) {
+        NSLog(@"PlaySound Error: %@", [err localizedDescription]);
+    } else {
+        [self.audioPlayer setDelegate:self];
+        [self.audioPlayer play];
+    }
 }
 
 @end

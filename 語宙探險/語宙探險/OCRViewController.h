@@ -10,12 +10,19 @@
 #import <AVFoundation/AVFoundation.h>
 #import <TesseractOCR/TesseractOCR.h>
 
-@interface OCRViewController : UIViewController<G8TesseractDelegate>
+@protocol OCRViewControllerDelegate;
+
+@interface OCRViewController : UIViewController<G8TesseractDelegate, AVAudioPlayerDelegate>
+
+@property (nonatomic, assign) id<OCRViewControllerDelegate> delegate;
 
 @property int sid;
+@property int did;
 @property (strong, nonatomic) G8Tesseract *tesseract;
 @property (strong, nonatomic) NSString *correctWord;
 @property (strong, nonatomic) NSString *fullWord;
+@property (strong, nonatomic) NSString *ddescription;
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 
 @property (weak, nonatomic) IBOutlet UIImageView *ocr_bg;
 @property (weak, nonatomic) IBOutlet UIView *photoView;
@@ -33,5 +40,11 @@
 - (IBAction)btnShotClicked:(id)sender;
 - (IBAction)btnOCRClicked:(id)sender;
 - (IBAction)btnFinishClicked:(id)sender;
+
+@end
+
+@protocol OCRViewControllerDelegate <NSObject>
+
+- (void)repairedPage:(NSString*)title description:(NSString*)description cutword:(NSString*)cutword;
 
 @end
