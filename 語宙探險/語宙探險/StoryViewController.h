@@ -7,12 +7,28 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
+#import "MatchViewController.h"
+#import "AimViewController.h"
 
-@interface StoryViewController : UIViewController
+@protocol StoryViewControllerDelegate;
+
+@interface StoryViewController : UIViewController<AVAudioPlayerDelegate, MatchViewControllerDelegate, AimViewControllerDelegate>
+
+@property (nonatomic, assign) id<StoryViewControllerDelegate> delegate;
+
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
+
 @property (strong, nonatomic) IBOutlet UIImageView *story_animate;
-@property (retain, nonatomic) NSString *r_id;
-@property (retain, nonatomic) NSString *r_img_name;
+
 @property (nonatomic) int r_img_count;
 @property (nonatomic) int current_count;
-@property (retain, nonatomic) NSString *animation_pic;
+
+@end
+
+@protocol StoryViewControllerDelegate <NSObject>
+
+- (void)changeViewController:(NSString*)toView;
+- (void)endOfStory;
+
 @end

@@ -17,6 +17,21 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    NSString* docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject];
+    NSString* dbPath = [docPath stringByAppendingPathComponent:@"dump.sqlite"];
+    NSError *error = nil;
+    if (![[NSFileManager defaultManager] fileExistsAtPath:dbPath]) {
+        // database doesn't exist in your library path... copy it from the bundle
+        NSString *sourcePath = [[NSBundle mainBundle] pathForResource:@"dump" ofType:@"sqlite"];
+        
+        if (![[NSFileManager defaultManager] copyItemAtPath:sourcePath toPath:dbPath error:&error]) {
+            NSLog(@"Copy DB file Error: %@", error);
+        }
+    } else {
+        //NSLog(@"db file exists.");
+    }
+    
     return YES;
 }
 

@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AVFoundation/AVFoundation.h>
 #import <sqlite3.h>
+#import "StoryViewController.h"
+#import "StageViewController.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : UIViewController<AVAudioPlayerDelegate, StoryViewControllerDelegate, StageViewControllerDelegate>
 
+@property (weak, nonatomic) IBOutlet UIView *curtain;
+@property (retain, nonatomic) NSString *r_id;
+@property (strong, nonatomic) AVAudioPlayer *audioPlayer;
 
 @end
 
